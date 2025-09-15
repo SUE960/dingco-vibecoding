@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 사원증 사진 편집기 | ID Photo Editor
 
-## Getting Started
+회사별 사원증 규격에 맞게 증명사진을 편집할 수 있는 온라인 도구입니다.
 
-First, run the development server:
+## 주요 기능
 
+### 📸 이미지 업로드
+- 드래그 앤 드롭 지원
+- JPG, PNG, WEBP 형식 지원
+- 직관적인 업로드 인터페이스
+
+### 🏢 회사별 규격 지원
+- **삼성전자**: 3:4 비율, 흰색 배경
+- **LG전자**: 7:9 비율, 흰색 배경
+- **SK하이닉스**: 3:4 비율, 연한 파란색 배경
+- **NAVER**: 4:5 비율, 흰색 배경
+- **카카오**: 3:4 비율, 연한 노란색 배경
+- **현대자동차**: 7:9 비율, 흰색 배경
+- **표준 사원증**: 3:4 비율, 흰색 배경
+
+### ✂️ 이미지 편집 기능
+- 정밀한 크롭 도구
+- 이미지 확대/축소 (50% ~ 200%)
+- 이미지 회전 (90도 단위)
+- 실시간 미리보기
+- 회사별 배경색 자동 적용
+
+### 💾 고품질 내보내기
+- PNG 형식으로 고화질 다운로드
+- 회사 규격에 맞는 정확한 크기
+- 원클릭 다운로드
+
+## 기술 스택
+
+- **Frontend**: Next.js 15.5.3, React 19
+- **Styling**: Tailwind CSS 4
+- **이미지 처리**: react-image-crop, html2canvas
+- **아이콘**: Lucide React
+- **언어**: TypeScript
+
+## 시작하기
+
+### 개발 환경 설정
+
+1. 의존성 설치
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 개발 서버 실행
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 브라우저에서 [http://localhost:3000](http://localhost:3000) 접속
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 빌드
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 사용 방법
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **이미지 업로드**: 증명사진을 드래그하거나 클릭하여 업로드합니다.
+2. **회사 선택**: 원하는 회사의 사원증 규격을 선택합니다.
+3. **이미지 편집**: 크롭 영역을 조정하고 필요시 확대/축소, 회전을 적용합니다.
+4. **미리보기 확인**: 우측 미리보기에서 최종 결과를 확인합니다.
+5. **다운로드**: '다운로드' 버튼을 클릭하여 편집된 이미지를 저장합니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 폴더 구조
 
-## Deploy on Vercel
+```
+src/
+├── app/
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+└── components/
+    ├── CompanyPresets.tsx    # 회사별 규격 선택
+    ├── ImageEditor.tsx       # 이미지 편집 도구
+    └── ImageUploader.tsx     # 이미지 업로드
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 라이선스
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License
+
+## 기여
+
+이슈 제보나 기능 제안은 GitHub Issues를 통해 해주세요.
