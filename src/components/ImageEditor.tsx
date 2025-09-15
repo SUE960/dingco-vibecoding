@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Download, RotateCcw, ZoomIn, ZoomOut, Move, Crop as CropIcon } from 'lucide-react';
+import { Download, RotateCcw, ZoomIn, ZoomOut, Crop as CropIcon } from 'lucide-react';
 import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { PhotoSpec } from './CompanyPresets';
@@ -68,7 +68,6 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
         y: (100 - cropHeight) / 2,
         width: cropWidth,
         height: cropHeight,
-        aspect: aspectRatio,
       });
     }
   }, [selectedPreset]);
