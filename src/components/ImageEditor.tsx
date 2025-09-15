@@ -1,8 +1,8 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
-import { Download, RotateCcw, ZoomIn, ZoomOut, Move, Crop } from 'lucide-react';
-import ReactCrop, { Crop, PixelCrop } from 'react-image-crop';
+import { Download, RotateCcw, ZoomIn, ZoomOut, Move, Crop as CropIcon } from 'lucide-react';
+import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { PhotoSpec } from './CompanyPresets';
 
@@ -212,7 +212,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
               )}
             </div>
             <p className="text-sm text-gray-500 mt-2 flex items-center gap-1">
-              <Crop className="w-4 h-4" />
+              <CropIcon className="w-4 h-4" />
               드래그하여 크롭 영역을 조정하세요
             </p>
           </div>
