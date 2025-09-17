@@ -58,9 +58,18 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     if (selectedPreset) {
       const aspectRatio = selectedPreset.width / selectedPreset.height;
       
-      // 이미지 중앙에 crop 영역 설정
-      const cropWidth = Math.min(80, (naturalHeight * aspectRatio / naturalWidth) * 100);
-      const cropHeight = Math.min(80, (naturalWidth / aspectRatio / naturalHeight) * 100);
+      const imageAspectRatio = naturalWidth / naturalHeight;
+      let cropWidth, cropHeight;
+
+      if (imageAspectRatio > aspectRatio) {
+        // 이미지가 프리셋보다 가로로 넓은 경우, 높이에 맞춰서 crop 너비 계산
+        cropHeight = 80;
+        cropWidth = (cropHeight * aspectRatio) / imageAspectRatio;
+      } else {
+        // 이미지가 프리셋보다 세로로 길거나 같은 경우, 너비에 맞춰서 crop 높이 계산
+        cropWidth = 80;
+        cropHeight = (cropWidth / aspectRatio) * imageAspectRatio;
+      }
       
       setCrop({
         unit: '%',
@@ -72,7 +81,8 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     }
   }, [selectedPreset]);
 
-  const generateDownload = useCallback(async () => {
+  // 실시간 미리보기 캔버스 업데이트
+  useEffect(() => {
     const image = imgRef.current;
     const canvas = canvasRef.current;
     const crop = completedCrop;
@@ -81,26 +91,35 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       return;
     }
 
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
-
-    const offscreen = new OffscreenCanvas(
-      selectedPreset?.width || crop.width,
-      selectedPreset?.height || crop.height
-    );
-    const ctx = offscreen.getContext('2d');
-
+    const ctx = canvas.getContext('2d');
     if (!ctx) {
       return;
     }
 
-    // 배경색 설정
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+
+    const pixelRatio = window.devicePixelRatio;
+    canvas.width = (selectedPreset?.width || crop.width) * pixelRatio;
+    canvas.height = (selectedPreset?.height || crop.height) * pixelRatio;
+    
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    ctx.imageSmoothingQuality = 'high';
+
     if (selectedPreset?.bgColor) {
       ctx.fillStyle = selectedPreset.bgColor;
-      ctx.fillRect(0, 0, offscreen.width, offscreen.height);
+      ctx.fillRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
     }
+    
+    const centerX = (canvas.width / pixelRatio) / 2;
+    const centerY = (canvas.height / pixelRatio) / 2;
 
-    // 이미지 그리기
+    ctx.save();
+    ctx.translate(centerX, centerY);
+    ctx.rotate((rotate * Math.PI) / 180);
+    ctx.scale(scale, scale);
+    ctx.translate(-centerX, -centerY);
+    
     ctx.drawImage(
       image,
       crop.x * scaleX,
@@ -109,18 +128,34 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       crop.height * scaleY,
       0,
       0,
-      offscreen.width,
-      offscreen.height
+      canvas.width / pixelRatio,
+      canvas.height / pixelRatio
     );
 
-    const blob = await offscreen.convertToBlob({
-      type: 'image/png',
-    });
+    ctx.restore();
+  }, [completedCrop, scale, rotate, selectedPreset, imageSrc]);
+
+  const generateDownload = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      return;
+    }
+
+    const blob = await new Promise<Blob | null>((resolve) => 
+      canvas.toBlob(
+        (b) => resolve(b),
+        'image/png',
+        1
+      )
+    );
+
+    if (!blob) {
+      return;
+    }
 
     if (onDownload) {
       onDownload(blob);
     } else {
-      // 기본 다운로드 동작
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -130,7 +165,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [completedCrop, selectedPreset, onDownload]);
+  }, [selectedPreset, onDownload]);
 
   return (
     <div className="w-full max-w-4xl mx-auto">
