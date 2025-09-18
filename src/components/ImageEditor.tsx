@@ -25,6 +25,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
   const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
+  const [useBackground, setUseBackground] = useState(false);
   
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -117,9 +118,11 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     ctx.imageSmoothingQuality = 'high';
 
-    // 배경 설정
-    ctx.fillStyle = selectedPreset?.bgColor || '#ffffff';
-    ctx.fillRect(0, 0, finalWidth, finalHeight);
+    // 배경 설정 (사용자가 배경을 원하는 경우에만 적용)
+    if (useBackground && selectedPreset?.bgColor) {
+      ctx.fillStyle = selectedPreset.bgColor;
+      ctx.fillRect(0, 0, finalWidth, finalHeight);
+    }
 
     // 이미지 크기 및 크롭 영역 계산 (실제 이미지 좌표로 변환)
     const scaleX = image.naturalWidth / image.width;
@@ -198,7 +201,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
 
     ctx.restore();
     return true;
-  }, [completedCrop, crop, scale, rotate, selectedPreset]);
+  }, [completedCrop, crop, scale, rotate, selectedPreset, useBackground]);
 
   // 미리보기 캔버스 업데이트 (이미지 로드 후 즉시 실행)
   useEffect(() => {
@@ -339,11 +342,27 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
             </button>
           </div>
 
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-semibold text-slate-700">배경</label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={useBackground}
+                onChange={(e) => setUseBackground(e.target.checked)}
+                className="w-4 h-4 text-slate-900 bg-white border-slate-300 rounded focus:ring-slate-500 focus:ring-2"
+              />
+              <span className="text-sm text-slate-600">
+                {selectedPreset?.bgColor ? '배경색 적용' : '기본 배경'}
+              </span>
+            </label>
+          </div>
+
           <div className="flex items-center gap-3 ml-auto">
             <button
               onClick={() => {
                 setScale(1);
                 setRotate(0);
+                setUseBackground(false);
                 setCrop({
                   unit: '%',
                   x: 10,
