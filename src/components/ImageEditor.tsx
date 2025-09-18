@@ -242,98 +242,104 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
         {/* 컨트롤 패널 */}
-        <div className="flex flex-wrap items-center gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">확대/축소:</label>
-            <button
-              onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
-              className="p-2 hover:bg-gray-200 rounded"
-              title="축소"
-            >
-              <ZoomOut className="w-4 h-4" />
-            </button>
-            <span className="text-sm text-gray-600 min-w-[3rem] text-center">
-              {Math.round(scale * 100)}%
-            </span>
-            <button
-              onClick={() => setScale(s => Math.min(3, s + 0.1))}
-              className="p-2 hover:bg-gray-200 rounded"
-              title="확대"
-            >
-              <ZoomIn className="w-4 h-4" />
-            </button>
+        <div className="flex flex-wrap items-center gap-4 mb-8 p-5 bg-slate-50 border border-slate-100 rounded-xl">
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-semibold text-slate-700">확대/축소</label>
+            <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
+              <button
+                onClick={() => setScale(s => Math.max(0.5, s - 0.1))}
+                className="p-2 hover:bg-slate-100 rounded-md transition-colors"
+                title="축소"
+              >
+                <ZoomOut className="w-4 h-4 text-slate-600" />
+              </button>
+              <span className="text-sm font-medium text-slate-700 min-w-[3rem] text-center px-2">
+                {Math.round(scale * 100)}%
+              </span>
+              <button
+                onClick={() => setScale(s => Math.min(3, s + 0.1))}
+                className="p-2 hover:bg-slate-100 rounded-md transition-colors"
+                title="확대"
+              >
+                <ZoomIn className="w-4 h-4 text-slate-600" />
+              </button>
+            </div>
             <button
               onClick={() => setScale(1)}
-              className="p-2 hover:bg-gray-200 rounded text-xs"
+              className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-700 hover:bg-white border border-slate-200 rounded-md transition-colors"
               title="확대/축소 초기화"
             >
-              100%
+              초기화
             </button>
           </div>
 
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">회전:</label>
-            <button
-              onClick={() => setRotate(r => r - 90)}
-              className="p-2 hover:bg-gray-200 rounded"
-              title="반시계방향 90도 회전"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-            <span className="text-sm text-gray-600 min-w-[3rem] text-center">
-              {rotate}°
-            </span>
-            <button
-              onClick={() => setRotate(r => r + 90)}
-              className="p-2 hover:bg-gray-200 rounded"
-              title="시계방향 90도 회전"
-            >
-              <RotateCcw className="w-4 h-4 transform scale-x-[-1]" />
-            </button>
+          <div className="flex items-center gap-3">
+            <label className="text-sm font-semibold text-slate-700">회전</label>
+            <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-lg p-1">
+              <button
+                onClick={() => setRotate(r => r - 90)}
+                className="p-2 hover:bg-slate-100 rounded-md transition-colors"
+                title="반시계방향 90도 회전"
+              >
+                <RotateCcw className="w-4 h-4 text-slate-600" />
+              </button>
+              <span className="text-sm font-medium text-slate-700 min-w-[3rem] text-center px-2">
+                {rotate}°
+              </span>
+              <button
+                onClick={() => setRotate(r => r + 90)}
+                className="p-2 hover:bg-slate-100 rounded-md transition-colors"
+                title="시계방향 90도 회전"
+              >
+                <RotateCcw className="w-4 h-4 text-slate-600 transform scale-x-[-1]" />
+              </button>
+            </div>
             <button
               onClick={() => setRotate(0)}
-              className="p-2 hover:bg-gray-200 rounded text-xs"
+              className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-700 hover:bg-white border border-slate-200 rounded-md transition-colors"
               title="회전 초기화"
             >
               초기화
             </button>
           </div>
 
-          <button
-            onClick={() => {
-              setScale(1);
-              setRotate(0);
-              setCrop({
-                unit: '%',
-                x: 10,
-                y: 10,
-                width: 80,
-                height: 80,
-              });
-            }}
-            className="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
-            title="모든 편집 내용 초기화"
-          >
-            전체 초기화
-          </button>
+          <div className="flex items-center gap-3 ml-auto">
+            <button
+              onClick={() => {
+                setScale(1);
+                setRotate(0);
+                setCrop({
+                  unit: '%',
+                  x: 10,
+                  y: 10,
+                  width: 80,
+                  height: 80,
+                });
+              }}
+              className="px-4 py-2.5 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
+              title="모든 편집 내용 초기화"
+            >
+              전체 초기화
+            </button>
 
-          <button
-            onClick={generateDownload}
-            className="ml-auto flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            disabled={!completedCrop}
-          >
-            <Download className="w-4 h-4" />
-            다운로드
-          </button>
+            <button
+              onClick={generateDownload}
+              className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!completedCrop}
+            >
+              <Download className="w-4 h-4" />
+              다운로드
+            </button>
+          </div>
         </div>
 
         {/* 이미지 편집 영역 */}
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* 크롭 영역 */}
           <div className="flex-1">
-            <div className="border-2 border-gray-200 rounded-lg overflow-hidden">
+            <div className="border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
               {imageSrc && (
                 <ReactCrop
                   crop={crop}
@@ -357,19 +363,19 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
                 </ReactCrop>
               )}
             </div>
-            <p className="text-sm text-gray-500 mt-2 flex items-center gap-1">
+            <div className="mt-3 flex items-center gap-2 text-sm text-slate-600">
               <CropIcon className="w-4 h-4" />
-              드래그하여 크롭 영역을 조정하세요
-            </p>
+              <span>드래그하여 크롭 영역을 조정하세요</span>
+            </div>
           </div>
 
           {/* 미리보기 */}
           <div className="lg:w-80">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-medium text-gray-900 mb-3">미리보기</h3>
+            <div className="bg-white border border-slate-200 rounded-xl p-6">
+              <h3 className="font-semibold text-slate-900 mb-4">미리보기</h3>
               <div className="flex justify-center">
                 <div
-                  className="border-2 border-gray-300 rounded"
+                  className="border border-slate-300 rounded-lg shadow-sm overflow-hidden"
                   style={{
                     width: selectedPreset ? Math.min(200, selectedPreset.width / 2) : 150,
                     height: selectedPreset ? Math.min(200, selectedPreset.height / 2) : 200,
@@ -387,9 +393,9 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
                 </div>
               </div>
               {selectedPreset && (
-                <div className="mt-3 text-center">
-                  <p className="text-sm font-medium text-gray-900">{selectedPreset.name}</p>
-                  <p className="text-xs text-gray-500">
+                <div className="mt-4 text-center space-y-1">
+                  <p className="text-sm font-semibold text-slate-900">{selectedPreset.name}</p>
+                  <p className="text-xs text-slate-500">
                     {selectedPreset.width} × {selectedPreset.height}px
                   </p>
                 </div>

@@ -80,32 +80,32 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex items-center mb-6">
-        <Building2 className="w-6 h-6 text-blue-600 mr-2" />
-        <h2 className="text-xl font-semibold text-gray-900">회사별 사원증 규격</h2>
+        <Building2 className="w-6 h-6 text-slate-700 mr-2" />
+        <h2 className="text-xl font-semibold text-slate-900">회사별 사원증 규격</h2>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {COMPANY_PRESETS.map((preset, index) => (
           <div
             key={index}
-            className={`p-4 border rounded-lg cursor-pointer transition-all hover:shadow-md ${
+            className={`p-5 border rounded-xl cursor-pointer transition-all ${
               selectedPreset?.name === preset.name
-                ? 'border-blue-500 bg-blue-50 shadow-md'
-                : 'border-gray-200 hover:border-gray-300'
+                ? 'border-slate-900 bg-slate-50 shadow-sm ring-1 ring-slate-900/10'
+                : 'border-slate-200 hover:border-slate-300 hover:shadow-sm'
             }`}
             onClick={() => onPresetSelect(preset)}
           >
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-900">{preset.name}</h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-semibold text-slate-900">{preset.name}</h3>
               <div
-                className="w-4 h-4 rounded border"
+                className="w-4 h-4 rounded-md border border-slate-300"
                 style={{ backgroundColor: preset.bgColor }}
               />
             </div>
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm font-medium text-slate-700 mb-2">
               {preset.width} × {preset.height}px
             </p>
-            <p className="text-xs text-gray-500">{preset.description}</p>
+            <p className="text-xs text-slate-500">{preset.description}</p>
           </div>
         ))}
       </div>

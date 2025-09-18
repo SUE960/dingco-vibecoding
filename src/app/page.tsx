@@ -36,18 +36,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-slate-50">
       {/* 헤더 */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-600 rounded-lg">
+              <div className="p-2.5 bg-slate-900 rounded-xl">
                 <Camera className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">사원증 사진 편집기</h1>
-                <p className="text-sm text-gray-600">회사별 규격에 맞는 완벽한 사원증 사진</p>
+                <h1 className="text-2xl font-bold text-slate-900">사원증 사진 편집기</h1>
+                <p className="text-sm text-slate-600">회사별 규격에 맞는 완벽한 사원증 사진</p>
               </div>
             </div>
           </div>
@@ -60,40 +60,40 @@ export default function Home() {
             {/* 소개 섹션 */}
             <div className="text-center">
               <div className="flex justify-center mb-6">
-                <div className="p-4 bg-blue-600 rounded-full">
+                <div className="p-4 bg-slate-900 rounded-2xl">
                   <Sparkles className="w-12 h-12 text-white" />
                 </div>
               </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">
                 간편하고 전문적인 사원증 사진 편집
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-12">
                 각 회사의 사원증 규격에 맞게 증명사진을 자동으로 조정해드립니다. 
                 전문적인 품질의 사원증 사진을 무료로 만들어보세요.
               </p>
 
               {/* 특징 */}
               <div className="grid md:grid-cols-3 gap-8 mb-12">
-                <div className="text-center">
-                  <div className="p-3 bg-green-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                    <Users className="w-6 h-6 text-green-600" />
+                <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-slate-100 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-slate-700" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">주요 회사 지원</h3>
-                  <p className="text-gray-600 text-sm">삼성, LG, 네이버, 카카오 등 주요 회사 규격 지원</p>
+                  <h3 className="font-semibold text-slate-900 mb-2">주요 회사 지원</h3>
+                  <p className="text-slate-600 text-sm">삼성, LG, 네이버, 카카오 등 주요 회사 규격 지원</p>
                 </div>
-                <div className="text-center">
-                  <div className="p-3 bg-blue-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                    <Camera className="w-6 h-6 text-blue-600" />
+                <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-slate-100 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Camera className="w-6 h-6 text-slate-700" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">자동 크롭 & 리사이즈</h3>
-                  <p className="text-gray-600 text-sm">AI 기반 얼굴 인식으로 최적의 크롭 영역 제안</p>
+                  <h3 className="font-semibold text-slate-900 mb-2">자동 크롭 & 리사이즈</h3>
+                  <p className="text-slate-600 text-sm">AI 기반 얼굴 인식으로 최적의 크롭 영역 제안</p>
                 </div>
-                <div className="text-center">
-                  <div className="p-3 bg-purple-100 rounded-full w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-                    <Download className="w-6 h-6 text-purple-600" />
+                <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
+                  <div className="w-12 h-12 bg-slate-100 rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Download className="w-6 h-6 text-slate-700" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">고품질 다운로드</h3>
-                  <p className="text-gray-600 text-sm">PNG 고화질로 바로 다운로드 가능</p>
+                  <h3 className="font-semibold text-slate-900 mb-2">고품질 다운로드</h3>
+                  <p className="text-slate-600 text-sm">PNG 고화질로 바로 다운로드 가능</p>
                 </div>
               </div>
             </div>
@@ -112,13 +112,13 @@ export default function Home() {
                 setUploadedImage(null);
                 setSelectedPreset(undefined);
               }}
-              className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium"
+              className="flex items-center gap-2 text-slate-700 hover:text-slate-900 font-medium transition-colors"
             >
               ← 새 이미지 선택
             </button>
 
             {/* 회사 프리셋 (간소화된 버전) */}
-            <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="bg-white border border-slate-200 rounded-xl p-6">
               <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
             </div>
 
