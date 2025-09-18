@@ -81,68 +81,140 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     }
   }, [selectedPreset]);
 
-  // 실시간 미리보기 캔버스 업데이트
-  useEffect(() => {
+  // 이미지를 캔버스에 그리는 공통 함수
+  const drawImageToCanvas = useCallback((canvas: HTMLCanvasElement, outputWidth?: number, outputHeight?: number, useCompletedCrop = true) => {
     const image = imgRef.current;
-    const canvas = canvasRef.current;
-    const crop = completedCrop;
+    const cropToUse = useCompletedCrop ? completedCrop : crop;
 
-    if (!image || !canvas || !crop) {
-      return;
+    if (!image || !cropToUse) {
+      return false;
     }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
-      return;
+      return false;
     }
 
-    const scaleX = image.naturalWidth / image.width;
-    const scaleY = image.naturalHeight / image.height;
+    // 출력 크기 설정
+    const finalWidth = outputWidth || selectedPreset?.width || 400;
+    const finalHeight = outputHeight || selectedPreset?.height || 400;
 
     const pixelRatio = window.devicePixelRatio;
-    canvas.width = (selectedPreset?.width || crop.width) * pixelRatio;
-    canvas.height = (selectedPreset?.height || crop.height) * pixelRatio;
+    canvas.width = finalWidth * pixelRatio;
+    canvas.height = finalHeight * pixelRatio;
     
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
     ctx.imageSmoothingQuality = 'high';
 
-    if (selectedPreset?.bgColor) {
-      ctx.fillStyle = selectedPreset.bgColor;
-      ctx.fillRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
-    }
+    // 배경 설정
+    ctx.fillStyle = selectedPreset?.bgColor || '#ffffff';
+    ctx.fillRect(0, 0, finalWidth, finalHeight);
+
+    // 이미지 크기 및 크롭 영역 계산 (실제 이미지 좌표로 변환)
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
     
-    const centerX = (canvas.width / pixelRatio) / 2;
-    const centerY = (canvas.height / pixelRatio) / 2;
+    const sourceX = cropToUse.x * scaleX;
+    const sourceY = cropToUse.y * scaleY;
+    const sourceWidth = cropToUse.width * scaleX;
+    const sourceHeight = cropToUse.height * scaleY;
+
+    // 임시 캔버스에 크롭된 이미지를 먼저 그리기
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = sourceWidth;
+    tempCanvas.height = sourceHeight;
+    const tempCtx = tempCanvas.getContext('2d');
+    
+    if (!tempCtx) {
+      return false;
+    }
+
+    // 크롭된 이미지를 임시 캔버스에 그리기
+    tempCtx.drawImage(
+      image,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      0,
+      0,
+      sourceWidth,
+      sourceHeight
+    );
+
+    // 최종 캔버스 중심점
+    const centerX = finalWidth / 2;
+    const centerY = finalHeight / 2;
 
     ctx.save();
+
+    // 변환 적용: 중심점으로 이동 -> 회전 -> 확대/축소
     ctx.translate(centerX, centerY);
     ctx.rotate((rotate * Math.PI) / 180);
     ctx.scale(scale, scale);
-    ctx.translate(-centerX, -centerY);
-    
+
+    // 크롭된 이미지를 최종 크기에 맞게 그리기
+    const aspectRatio = sourceWidth / sourceHeight;
+    let drawWidth, drawHeight;
+
+    if (aspectRatio > finalWidth / finalHeight) {
+      // 이미지가 더 넓은 경우
+      drawWidth = finalWidth * 0.95;
+      drawHeight = drawWidth / aspectRatio;
+    } else {
+      // 이미지가 더 높은 경우
+      drawHeight = finalHeight * 0.95;
+      drawWidth = drawHeight * aspectRatio;
+    }
+
+    // 크롭된 이미지를 중앙에 배치
     ctx.drawImage(
-      image,
-      crop.x * scaleX,
-      crop.y * scaleY,
-      crop.width * scaleX,
-      crop.height * scaleY,
-      0,
-      0,
-      canvas.width / pixelRatio,
-      canvas.height / pixelRatio
+      tempCanvas,
+      -drawWidth / 2,
+      -drawHeight / 2,
+      drawWidth,
+      drawHeight
     );
 
     ctx.restore();
-  }, [completedCrop, scale, rotate, selectedPreset, imageSrc]);
+    return true;
+  }, [completedCrop, crop, scale, rotate, selectedPreset]);
+
+  // 실시간 미리보기 캔버스 업데이트 (크롭 조정 중에도 반영)
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // 미리보기에서는 현재 크롭 상태를 사용 (실시간 반영)
+    drawImageToCanvas(canvas, undefined, undefined, false);
+  }, [drawImageToCanvas, imageSrc, crop]);
+
+  // completedCrop이 변경되면 최종 크롭으로 미리보기 업데이트
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !completedCrop) return;
+
+    drawImageToCanvas(canvas);
+  }, [drawImageToCanvas, completedCrop]);
 
   const generateDownload = useCallback(async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
+    // 고해상도 다운로드를 위한 별도 캔버스 생성
+    const downloadCanvas = document.createElement('canvas');
+    
+    // 실제 프리셋 크기로 렌더링
+    const success = drawImageToCanvas(
+      downloadCanvas, 
+      selectedPreset?.width, 
+      selectedPreset?.height
+    );
+
+    if (!success) {
+      alert('이미지 생성에 실패했습니다. 크롭 영역을 설정해주세요.');
       return;
     }
 
     const blob = await new Promise<Blob | null>((resolve) => 
-      canvas.toBlob(
+      downloadCanvas.toBlob(
         (b) => resolve(b),
         'image/png',
         1
@@ -150,6 +222,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     );
 
     if (!blob) {
+      alert('이미지 변환에 실패했습니다.');
       return;
     }
 
@@ -165,7 +238,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [selectedPreset, onDownload]);
+  }, [drawImageToCanvas, selectedPreset, onDownload]);
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -185,11 +258,18 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
               {Math.round(scale * 100)}%
             </span>
             <button
-              onClick={() => setScale(s => Math.min(2, s + 0.1))}
+              onClick={() => setScale(s => Math.min(3, s + 0.1))}
               className="p-2 hover:bg-gray-200 rounded"
               title="확대"
             >
               <ZoomIn className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setScale(1)}
+              className="p-2 hover:bg-gray-200 rounded text-xs"
+              title="확대/축소 초기화"
+            >
+              100%
             </button>
           </div>
 
@@ -198,14 +278,46 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
             <button
               onClick={() => setRotate(r => r - 90)}
               className="p-2 hover:bg-gray-200 rounded"
-              title="90도 회전"
+              title="반시계방향 90도 회전"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
             <span className="text-sm text-gray-600 min-w-[3rem] text-center">
               {rotate}°
             </span>
+            <button
+              onClick={() => setRotate(r => r + 90)}
+              className="p-2 hover:bg-gray-200 rounded"
+              title="시계방향 90도 회전"
+            >
+              <RotateCcw className="w-4 h-4 transform scale-x-[-1]" />
+            </button>
+            <button
+              onClick={() => setRotate(0)}
+              className="p-2 hover:bg-gray-200 rounded text-xs"
+              title="회전 초기화"
+            >
+              초기화
+            </button>
           </div>
+
+          <button
+            onClick={() => {
+              setScale(1);
+              setRotate(0);
+              setCrop({
+                unit: '%',
+                x: 10,
+                y: 10,
+                width: 80,
+                height: 80,
+              });
+            }}
+            className="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
+            title="모든 편집 내용 초기화"
+          >
+            전체 초기화
+          </button>
 
           <button
             onClick={generateDownload}
