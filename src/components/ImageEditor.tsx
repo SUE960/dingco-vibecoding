@@ -86,9 +86,20 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     const image = imgRef.current;
     const cropToUse = useCompletedCrop ? completedCrop : crop;
 
-    if (!image || !cropToUse) {
+    if (!image) {
       return false;
     }
+
+    // 크롭이 없으면 전체 이미지를 기본 크롭으로 사용
+    const defaultCrop = {
+      x: 0,
+      y: 0,
+      width: image.width,
+      height: image.height,
+      unit: 'px' as const
+    };
+    
+    const finalCrop = cropToUse || defaultCrop;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -114,10 +125,19 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
     
-    const sourceX = cropToUse.x * scaleX;
-    const sourceY = cropToUse.y * scaleY;
-    const sourceWidth = cropToUse.width * scaleX;
-    const sourceHeight = cropToUse.height * scaleY;
+    // 퍼센트 단위인 경우 픽셀로 변환
+    let sourceX, sourceY, sourceWidth, sourceHeight;
+    if (finalCrop.unit === '%') {
+      sourceX = (finalCrop.x / 100) * image.naturalWidth;
+      sourceY = (finalCrop.y / 100) * image.naturalHeight;
+      sourceWidth = (finalCrop.width / 100) * image.naturalWidth;
+      sourceHeight = (finalCrop.height / 100) * image.naturalHeight;
+    } else {
+      sourceX = finalCrop.x * scaleX;
+      sourceY = finalCrop.y * scaleY;
+      sourceWidth = finalCrop.width * scaleX;
+      sourceHeight = finalCrop.height * scaleY;
+    }
 
     // 임시 캔버스에 크롭된 이미지를 먼저 그리기
     const tempCanvas = document.createElement('canvas');
@@ -180,19 +200,33 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     return true;
   }, [completedCrop, crop, scale, rotate, selectedPreset]);
 
-  // 실시간 미리보기 캔버스 업데이트 (크롭 조정 중에도 반영)
+  // 미리보기 캔버스 업데이트 (이미지 로드 후 즉시 실행)
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const image = imgRef.current;
+    
+    if (!canvas || !image || !imageSrc) return;
 
-    // 미리보기에서는 현재 크롭 상태를 사용 (실시간 반영)
+    // 이미지가 로드된 후 작은 딜레이를 두고 미리보기 생성
+    const timer = setTimeout(() => {
+      drawImageToCanvas(canvas);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [drawImageToCanvas, imageSrc]);
+
+  // 크롭이 변경되면 실시간 미리보기 업데이트
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !imageSrc) return;
+
     drawImageToCanvas(canvas, undefined, undefined, false);
-  }, [drawImageToCanvas, imageSrc, crop]);
+  }, [drawImageToCanvas, crop]);
 
   // completedCrop이 변경되면 최종 크롭으로 미리보기 업데이트
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !completedCrop) return;
+    if (!canvas || !completedCrop || !imageSrc) return;
 
     drawImageToCanvas(canvas);
   }, [drawImageToCanvas, completedCrop]);
