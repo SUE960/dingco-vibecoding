@@ -5,6 +5,8 @@ import { Camera, Sparkles, Users, Download } from 'lucide-react';
 import ImageUploader from '@/components/ImageUploader';
 import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
 import ImageEditor from '@/components/ImageEditor';
+import QuickCustomizer from '@/components/QuickCustomizer';
+import PresetStats from '@/components/PresetStats';
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -103,6 +105,9 @@ export default function Home() {
 
             {/* 회사 프리셋 */}
             <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
+            
+            {/* 빠른 커스터마이징 */}
+            <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
           </div>
         ) : (
           <div className="space-y-8">
@@ -122,6 +127,9 @@ export default function Home() {
               <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
             </div>
 
+            {/* 빠른 커스터마이징 */}
+            <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
+
             {/* 이미지 편집기 */}
             <ImageEditor
               imageFile={uploadedImage}
@@ -140,6 +148,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* 통계 대시보드 */}
+      <PresetStats />
     </div>
   );
 }
