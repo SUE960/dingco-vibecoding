@@ -67,8 +67,8 @@ export default function Home() {
               <h2 className="text-3xl font-bold text-slate-900 mb-4">
                 간편하고 전문적인 사원증 사진 편집
               </h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-12">
-                각 회사의 사원증 규격에 맞게 증명사진을 자동으로 조정해드립니다. 
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+                각 회사의 사원증 규격에 맞게 증명사진을 자동으로 조정해드립니다.<br />
                 전문적인 품질의 사원증 사진을 무료로 만들어보세요.
               </p>
 
