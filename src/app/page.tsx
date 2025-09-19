@@ -7,6 +7,7 @@ import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
 import ImageEditor from '@/components/ImageEditor';
 import QuickCustomizer from '@/components/QuickCustomizer';
 import PresetStats from '@/components/PresetStats';
+import AdminDashboard from '@/components/AdminDashboard';
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -151,6 +152,9 @@ export default function Home() {
 
       {/* 통계 대시보드 */}
       <PresetStats />
+      
+      {/* 관리자 대시보드 */}
+      <AdminDashboard />
     </div>
   );
 }
