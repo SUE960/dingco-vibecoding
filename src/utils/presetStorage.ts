@@ -81,8 +81,14 @@ export const getPresetStats = () => {
   };
 };
 
+interface CollectedDataItem {
+  preset: PhotoSpec;
+  contactEmail?: string;
+  timestamp: string;
+}
+
 // 가장 많이 사용되는 규격 분석
-const getMostCommonSizes = (data: any[]) => {
+const getMostCommonSizes = (data: CollectedDataItem[]) => {
   const sizeCount: Record<string, number> = {};
   
   data.forEach(item => {

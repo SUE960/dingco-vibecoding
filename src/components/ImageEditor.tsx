@@ -224,7 +224,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     if (!canvas || !imageSrc) return;
 
     drawImageToCanvas(canvas, undefined, undefined, false);
-  }, [drawImageToCanvas, crop]);
+  }, [drawImageToCanvas, crop, imageSrc]);
 
   // completedCrop이 변경되면 최종 크롭으로 미리보기 업데이트
   useEffect(() => {
@@ -232,7 +232,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     if (!canvas || !completedCrop || !imageSrc) return;
 
     drawImageToCanvas(canvas);
-  }, [drawImageToCanvas, completedCrop]);
+  }, [drawImageToCanvas, completedCrop, imageSrc]);
 
   const generateDownload = useCallback(async () => {
     // 고해상도 다운로드를 위한 별도 캔버스 생성

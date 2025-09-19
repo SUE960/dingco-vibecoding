@@ -5,7 +5,22 @@ import { BarChart, TrendingUp, Users, Database } from 'lucide-react';
 import { getPresetStats } from '@/utils/presetStorage';
 
 export default function PresetStats() {
-  const [stats, setStats] = useState({
+  interface CollectedDataItem {
+    preset: {
+      name: string;
+      width: number;
+      height: number;
+    };
+    timestamp: string;
+    contactEmail?: string;
+  }
+
+  const [stats, setStats] = useState<{
+    totalCustomPresets: number;
+    totalCollectedData: number;
+    mostCommonSizes: { size: string; count: number; }[];
+    recentAdditions: CollectedDataItem[];
+  }>({
     totalCustomPresets: 0,
     totalCollectedData: 0,
     mostCommonSizes: [],
@@ -79,7 +94,7 @@ export default function PresetStats() {
           <div>
             <h4 className="text-sm font-medium text-slate-700 mb-2">인기 규격</h4>
             <div className="space-y-1">
-              {stats.mostCommonSizes.map((item: any, index) => (
+              {stats.mostCommonSizes.map((item, index) => (
                 <div key={index} className="flex justify-between text-xs">
                   <span className="text-slate-600">{item.size}px</span>
                   <span className="font-medium text-slate-900">{item.count}회</span>
@@ -93,7 +108,7 @@ export default function PresetStats() {
           <div>
             <h4 className="text-sm font-medium text-slate-700 mb-2">최근 추가</h4>
             <div className="space-y-1 max-h-20 overflow-y-auto">
-              {stats.recentAdditions.map((item: any, index) => (
+              {stats.recentAdditions.map((item, index) => (
                 <div key={index} className="text-xs text-slate-600">
                   {item.preset.name} ({item.preset.width}×{item.preset.height})
                 </div>

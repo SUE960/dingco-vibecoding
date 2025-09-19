@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Save, X } from 'lucide-react';
+import { Save, X } from 'lucide-react';
 import { PhotoSpec } from './CompanyPresets';
 import { collectPresetData } from '@/utils/presetStorage';
 
