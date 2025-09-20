@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.57.4",
     "@types/fabric": "^5.3.10",
     "fabric": "^6.7.1",
     "html2canvas": "^1.4.1",

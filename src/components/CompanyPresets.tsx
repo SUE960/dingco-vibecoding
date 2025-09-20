@@ -1,13 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Building2, Plus, Search, TrendingUp, AlertCircle, Edit3, MessageSquare } from 'lucide-react';
+import { Building2, Plus, Search, TrendingUp, AlertCircle, Edit3, Check } from 'lucide-react';
 import CustomPresetForm from './CustomPresetForm';
 import CompanyRequestForm from './CompanyRequestForm';
 import DataSubmissionForm from './DataSubmissionForm';
 import ModificationRequestForm from './ModificationRequestForm';
-import { getTopRequestedCompanies, getModificationRequestsForPreset } from '@/utils/presetStorage';
+import { getModificationRequestsForPreset as getModificationRequestsForPresetLocal } from '@/utils/presetStorage';
 import type { CompanyPresetRequest } from '@/utils/presetStorage';
+// Supabase 연동
+import { getCompanyPresets, getTopRequestedCompanies, getModificationRequestsForPreset } from '@/lib/supabase-storage';
+import type { CompanyPreset } from '@/lib/supabase';
 
 // 주요 회사들의 사원증 사진 규격 정보
 export interface PhotoSpec {
@@ -84,6 +87,7 @@ interface CompanyPresetsProps {
 }
 
 export default function CompanyPresets({ onPresetSelect, selectedPreset }: CompanyPresetsProps) {
+  const [companyPresets, setCompanyPresets] = useState<PhotoSpec[]>(COMPANY_PRESETS);
   const [customPresets, setCustomPresets] = useState<PhotoSpec[]>([]);
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [showRequestForm, setShowRequestForm] = useState(false);
@@ -93,33 +97,70 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
   const [selectedPresetForModification, setSelectedPresetForModification] = useState<PhotoSpec | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [topRequests, setTopRequests] = useState<CompanyPresetRequest[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   
-  const allPresets = [...COMPANY_PRESETS, ...customPresets];
+  const allPresets = [...companyPresets, ...customPresets];
   const filteredPresets = allPresets.filter(preset => 
     preset.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Supabase에서 데이터 로드
   useEffect(() => {
-    setTopRequests(getTopRequestedCompanies(3));
-  }, [showRequestForm, showSubmissionForm, showModificationForm]);
+    const loadData = async () => {
+      setIsLoading(true);
+      
+      // 회사 규격 데이터 로드
+      const supabasePresets = await getCompanyPresets();
+      if (supabasePresets.length > 0) {
+        const convertedPresets: PhotoSpec[] = supabasePresets.map((preset: CompanyPreset) => ({
+          name: preset.name,
+          width: preset.width,
+          height: preset.height,
+          aspectRatio: preset.aspect_ratio,
+          bgColor: preset.bg_color,
+          description: preset.description || ''
+        }));
+        setCompanyPresets(convertedPresets);
+      }
+
+      // 상위 요청 데이터 로드
+      const requests = await getTopRequestedCompanies(3);
+      const convertedRequests: CompanyPresetRequest[] = requests.map(req => ({
+        id: req.id.toString(),
+        companyName: req.company_name,
+        requesterEmail: req.requester_email,
+        requesterName: req.requester_name,
+        requestDate: req.request_date,
+        status: req.status === 'approved' ? 'verified' : req.status === 'rejected' ? 'pending' : 'pending' as 'pending' | 'collecting' | 'verified' | 'added',
+        votes: req.votes,
+        submissions: [] // 기본값
+      }));
+      setTopRequests(convertedRequests);
+      
+      setIsLoading(false);
+    };
+
+    loadData();
+  }, []);
 
   const handleCustomPresetAdd = (newPreset: PhotoSpec) => {
     setCustomPresets(prev => [...prev, newPreset]);
-    onPresetSelect(newPreset); // 추가 후 바로 선택
+    onPresetSelect(newPreset);
   };
 
-  const handleRequestSuccess = () => {
-    setTopRequests(getTopRequestedCompanies(3));
-  };
-
-  const handleSubmissionSuccess = () => {
-    setTopRequests(getTopRequestedCompanies(3));
-    setShowSubmissionForm(false);
-  };
-
-  const handleModificationSuccess = () => {
-    setTopRequests(getTopRequestedCompanies(3));
-    setShowModificationForm(false);
+  const handleRequestSuccess = async () => {
+    const requests = await getTopRequestedCompanies(3);
+      const convertedRequests: CompanyPresetRequest[] = requests.map(req => ({
+        id: req.id.toString(),
+        companyName: req.company_name,
+        requesterEmail: req.requester_email,
+        requesterName: req.requester_name,
+        requestDate: req.request_date,
+        status: req.status === 'approved' ? 'verified' : req.status === 'rejected' ? 'pending' : 'pending' as 'pending' | 'collecting' | 'verified' | 'added',
+        votes: req.votes,
+        submissions: []
+      }));
+    setTopRequests(convertedRequests);
   };
 
   const handleRequestClick = (request: CompanyPresetRequest) => {
@@ -132,146 +173,131 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
     setShowModificationForm(true);
   };
 
-  const getModificationCount = (presetName: string) => {
+  const getModificationCount = async (presetName: string) => {
     if (typeof window === 'undefined') return 0;
-    return getModificationRequestsForPreset(presetName).filter(req => req.status === 'pending').length;
+    try {
+      const requests = await getModificationRequestsForPreset(presetName);
+      return requests.filter(req => req.status === 'pending').length;
+    } catch {
+      return getModificationRequestsForPresetLocal(presetName).filter(req => req.status === 'pending').length;
+    }
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-4xl mx-auto">
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900"></div>
+          <span className="ml-2 text-slate-600">데이터를 불러오는 중...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
-          <Building2 className="w-6 h-6 text-slate-700 mr-2" />
-          <h2 className="text-xl font-semibold text-slate-900">회사별 사원증 규격</h2>
+          <Building2 className="w-6 h-6 text-slate-700 mr-3" />
+          <h2 className="text-xl font-semibold text-slate-900">회사별 규격</h2>
         </div>
-        <div className="flex gap-2">
+        
+        <div className="flex gap-3">
           <button
             onClick={() => setShowRequestForm(true)}
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
           >
-            <Search className="w-4 h-4" />
+            <Plus className="w-4 h-4" />
             회사 요청
           </button>
           <button
             onClick={() => setShowCustomForm(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border border-slate-300 text-slate-700 text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            규격 추가
+            직접 만들기
           </button>
         </div>
       </div>
 
       {/* 검색 바 */}
-      <div className="mb-6">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="회사명으로 검색..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
-          />
-        </div>
+      <div className="relative mb-6">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
+        <input
+          type="text"
+          placeholder="회사명으로 검색..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
       </div>
 
-      {/* 요청된 회사들 */}
-      {topRequests.length > 0 && (
-        <div className="mb-6">
+      {/* 많이 요청된 회사들 */}
+      {topRequests.length > 0 && !searchTerm && (
+        <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
           <div className="flex items-center gap-2 mb-3">
-            <TrendingUp className="w-4 h-4 text-slate-600" />
-            <h3 className="font-medium text-slate-900">많이 요청된 회사</h3>
+            <TrendingUp className="w-4 h-4 text-blue-600" />
+            <h3 className="text-sm font-medium text-blue-900">많이 요청된 회사</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div className="flex flex-wrap gap-2">
             {topRequests.map((request) => (
-              <div
+              <button
                 key={request.id}
                 onClick={() => handleRequestClick(request)}
-                className="p-4 border border-orange-200 bg-orange-50 rounded-lg cursor-pointer hover:bg-orange-100 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 bg-white border border-blue-300 rounded-lg hover:bg-blue-50 transition-colors"
               >
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-medium text-slate-900">{request.companyName}</h4>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    request.status === 'verified' ? 'bg-green-100 text-green-800' :
-                    request.status === 'collecting' ? 'bg-blue-100 text-blue-800' :
-                    'bg-gray-100 text-gray-800'
-                  }`}>
-                    {request.status === 'verified' ? '완료' :
-                     request.status === 'collecting' ? '수집중' :
-                     '대기중'}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-slate-600">
-                  <span>{request.votes}명 요청</span>
-                  <span>•</span>
-                  <span>{request.submissions.length}개 제출</span>
-                </div>
-                {request.submissions.length === 0 && (
-                  <div className="mt-2 flex items-center gap-1 text-xs text-orange-700">
-                    <AlertCircle className="w-3 h-3" />
-                    <span>정보 제출 필요</span>
-                  </div>
-                )}
-              </div>
+                <span className="text-sm text-blue-800">{request.companyName}</span>
+                <span className="text-xs bg-blue-200 text-blue-800 px-1.5 py-0.5 rounded-full">
+                  {request.votes}표
+                </span>
+              </button>
             ))}
           </div>
         </div>
       )}
-      
-      {/* 기존 프리셋들 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      {/* 규격 목록 */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredPresets.map((preset, index) => {
-          const modificationCount = getModificationCount(preset.name);
           const isCustomPreset = allPresets.indexOf(preset) >= COMPANY_PRESETS.length;
           
           return (
             <div
               key={`${preset.name}-${index}`}
-              className={`group p-5 border rounded-xl transition-all relative ${
+              className={`group p-5 border rounded-xl transition-all relative cursor-pointer ${
                 selectedPreset?.name === preset.name
                   ? 'border-slate-900 bg-slate-50 shadow-sm ring-1 ring-slate-900/10'
                   : 'border-slate-200 hover:border-slate-300 hover:shadow-sm'
               }`}
+              onClick={() => onPresetSelect(preset)}
             >
-              {/* 커스텀 라벨 */}
-              {isCustomPreset && (
-                <div className="absolute top-2 right-2">
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    커스텀
-                  </span>
+              {/* 체크박스 */}
+              <div className="absolute top-3 right-3">
+                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+                  selectedPreset?.name === preset.name
+                    ? 'border-slate-900 bg-slate-900' 
+                    : 'border-slate-300 bg-white'
+                }`}>
+                  {selectedPreset?.name === preset.name && (
+                    <Check className="w-3 h-3 text-white" />
+                  )}
                 </div>
-              )}
+              </div>
 
-              {/* 수정 의견 알림 */}
-              {modificationCount > 0 && (
-                <div className="absolute top-2 left-2">
-                  <div className="flex items-center gap-1 px-2 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">
-                    <MessageSquare className="w-3 h-3" />
-                    {modificationCount}개 의견
-                  </div>
+              <div className="text-center">
+                <div className="text-sm font-medium text-slate-900 mb-2">
+                  {preset.name}
                 </div>
-              )}
-
-              {/* 메인 콘텐츠 - 클릭 시 선택 */}
-              <div
-                className="cursor-pointer"
-                onClick={() => onPresetSelect(preset)}
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="font-semibold text-slate-900">{preset.name}</h3>
-                  <div
-                    className="w-4 h-4 rounded-md border border-slate-300"
-                    style={{ backgroundColor: preset.bgColor }}
-                  />
-                </div>
-                <p className="text-sm font-medium text-slate-700 mb-2">
+                <div className="text-xs text-slate-600 mb-3">
                   {preset.width} × {preset.height}px
-                </p>
+                </div>
+                <div 
+                  className="w-16 h-20 mx-auto rounded border-2 border-slate-200 mb-3"
+                  style={{ backgroundColor: preset.bgColor }}
+                />
                 <p className="text-xs text-slate-500">{preset.description}</p>
               </div>
 
-              {/* 수정 의견 버튼 - 공식 프리셋에만 표시 */}
               {!isCustomPreset && (
                 <div className="mt-3 pt-3 border-t border-slate-200 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
@@ -279,7 +305,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
                       e.stopPropagation();
                       handleModificationClick(preset);
                     }}
-                    className="flex items-center gap-2 text-xs text-slate-600 hover:text-slate-800 font-medium transition-colors"
+                    className="flex items-center gap-2 text-xs text-slate-600 hover:text-slate-800 font-medium transition-colors w-full"
                   >
                     <Edit3 className="w-3 h-3" />
                     수정 의견 제출
@@ -291,17 +317,15 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
         })}
       </div>
 
-      {/* 검색 결과가 없을 때 */}
+      {/* 검색 결과 없음 */}
       {searchTerm && filteredPresets.length === 0 && (
         <div className="text-center py-8">
-          <div className="w-16 h-16 bg-slate-100 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <Search className="w-8 h-8 text-slate-400" />
-          </div>
+          <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-3" />
           <h3 className="font-medium text-slate-900 mb-2">
             &apos;{searchTerm}&apos; 검색 결과가 없습니다
           </h3>
-          <p className="text-slate-600 text-sm mb-4">
-            해당 회사의 규격이 아직 등록되지 않았습니다.
+          <p className="text-slate-600 mb-4">
+            찾으시는 회사의 규격이 없나요? 새로운 회사를 요청해보세요.
           </p>
           <button
             onClick={() => setShowRequestForm(true)}
@@ -314,37 +338,45 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
       )}
 
       {/* 모달들 */}
-      <CustomPresetForm
-        isVisible={showCustomForm}
-        onClose={() => setShowCustomForm(false)}
-        onPresetAdd={handleCustomPresetAdd}
-      />
+      {showCustomForm && (
+        <CustomPresetForm
+          onPresetAdd={handleCustomPresetAdd}
+          onClose={() => setShowCustomForm(false)}
+          isVisible={showCustomForm}
+        />
+      )}
 
-      <CompanyRequestForm
-        isVisible={showRequestForm}
-        onClose={() => setShowRequestForm(false)}
-        onRequestSuccess={handleRequestSuccess}
-      />
+      {showRequestForm && (
+        <CompanyRequestForm
+          isVisible={showRequestForm}
+          onClose={() => setShowRequestForm(false)}
+          onRequestSuccess={handleRequestSuccess}
+        />
+      )}
 
-      {selectedRequest && (
+      {showSubmissionForm && selectedRequest && (
         <DataSubmissionForm
           isVisible={showSubmissionForm}
           onClose={() => setShowSubmissionForm(false)}
           request={selectedRequest}
-          onSubmissionSuccess={handleSubmissionSuccess}
+          onSubmissionSuccess={async () => {
+            await handleRequestSuccess();
+            setShowSubmissionForm(false);
+          }}
         />
       )}
 
-      {selectedPresetForModification && (
+      {showModificationForm && selectedPresetForModification && (
         <ModificationRequestForm
           isVisible={showModificationForm}
           onClose={() => setShowModificationForm(false)}
           originalPreset={selectedPresetForModification}
-          onSubmissionSuccess={handleModificationSuccess}
+          onSubmissionSuccess={async () => {
+            await handleRequestSuccess();
+            setShowModificationForm(false);
+          }}
         />
       )}
     </div>
   );
 }
-
-
