@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Plus, TrendingUp, Users, AlertCircle } from 'lucide-react';
 import { requestCompanyPreset, getTopRequestedCompanies } from '@/utils/presetStorage';
 import type { CompanyPresetRequest } from '@/utils/presetStorage';
@@ -21,7 +21,12 @@ export default function CompanyRequestForm({
   const [requesterEmail, setRequesterEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
-  const [topRequests] = useState(() => getTopRequestedCompanies(5));
+  const [topRequests, setTopRequests] = useState<CompanyPresetRequest[]>([]);
+
+  useEffect(() => {
+    // 클라이언트 사이드에서만 로드
+    setTopRequests(getTopRequestedCompanies(5));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

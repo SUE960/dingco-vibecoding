@@ -50,6 +50,7 @@ export interface PresetModificationRequest {
 // 사용자 정의 프리셋 저장
 export const saveCustomPreset = (preset: PhotoSpec) => {
   try {
+    if (typeof window === 'undefined') return false;
     const existingPresets = getCustomPresets();
     const updatedPresets = [...existingPresets, preset];
     localStorage.setItem(CUSTOM_PRESETS_KEY, JSON.stringify(updatedPresets));
@@ -63,6 +64,7 @@ export const saveCustomPreset = (preset: PhotoSpec) => {
 // 사용자 정의 프리셋 불러오기
 export const getCustomPresets = (): PhotoSpec[] => {
   try {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(CUSTOM_PRESETS_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
@@ -89,9 +91,11 @@ export const collectPresetData = (data: {
     // });
 
     // 로컬 저장소에 수집 데이터 기록 (통계용)
-    const existingData = getCollectedData();
-    const updatedData = [...existingData, data];
-    localStorage.setItem(COLLECTED_DATA_KEY, JSON.stringify(updatedData));
+    if (typeof window !== 'undefined') {
+      const existingData = getCollectedData();
+      const updatedData = [...existingData, data];
+      localStorage.setItem(COLLECTED_DATA_KEY, JSON.stringify(updatedData));
+    }
     
     return true;
   } catch (error) {
@@ -103,6 +107,7 @@ export const collectPresetData = (data: {
 // 수집된 데이터 조회 (관리자용)
 export const getCollectedData = () => {
   try {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(COLLECTED_DATA_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
@@ -264,6 +269,7 @@ export const voteForSubmission = (submissionId: string) => {
 
 const getCompanyRequests = (): CompanyPresetRequest[] => {
   try {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(REQUESTED_COMPANIES_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
@@ -274,6 +280,7 @@ const getCompanyRequests = (): CompanyPresetRequest[] => {
 
 const saveCompanyRequests = (requests: CompanyPresetRequest[]) => {
   try {
+    if (typeof window === 'undefined') return;
     localStorage.setItem(REQUESTED_COMPANIES_KEY, JSON.stringify(requests));
   } catch (error) {
     console.error('Failed to save company requests:', error);
@@ -282,6 +289,7 @@ const saveCompanyRequests = (requests: CompanyPresetRequest[]) => {
 
 const getVerificationQueue = (): CompanyPresetSubmission[] => {
   try {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(VERIFICATION_QUEUE_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
@@ -292,6 +300,7 @@ const getVerificationQueue = (): CompanyPresetSubmission[] => {
 
 const saveVerificationQueue = (queue: CompanyPresetSubmission[]) => {
   try {
+    if (typeof window === 'undefined') return;
     localStorage.setItem(VERIFICATION_QUEUE_KEY, JSON.stringify(queue));
   } catch (error) {
     console.error('Failed to save verification queue:', error);
@@ -448,6 +457,7 @@ export const rejectModificationRequest = (requestId: string, adminComments?: str
 
 const getModificationRequests = (): PresetModificationRequest[] => {
   try {
+    if (typeof window === 'undefined') return [];
     const stored = localStorage.getItem(MODIFICATION_REQUESTS_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
@@ -458,6 +468,7 @@ const getModificationRequests = (): PresetModificationRequest[] => {
 
 const saveModificationRequests = (requests: PresetModificationRequest[]) => {
   try {
+    if (typeof window === 'undefined') return;
     localStorage.setItem(MODIFICATION_REQUESTS_KEY, JSON.stringify(requests));
   } catch (error) {
     console.error('Failed to save modification requests:', error);

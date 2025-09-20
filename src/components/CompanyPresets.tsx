@@ -133,6 +133,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
   };
 
   const getModificationCount = (presetName: string) => {
+    if (typeof window === 'undefined') return 0;
     return getModificationRequestsForPreset(presetName).filter(req => req.status === 'pending').length;
   };
 
