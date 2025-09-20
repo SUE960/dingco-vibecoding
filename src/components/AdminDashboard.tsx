@@ -41,7 +41,7 @@ export default function AdminDashboard() {
     totalCustomPresets?: number;
     totalCollectedData?: number;
     mostCommonSizes?: { size: string; count: number }[];
-    recentAdditions?: any[];
+    recentAdditions?: unknown[];
   }>({});
 
   useEffect(() => {
