@@ -72,7 +72,7 @@ export default function Home() {
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
                 <span className="font-semibold text-slate-700">삼성, LG, 네이버 등 회사별 규격에 딱 맞는</span><br />
-                증명사진을 3초만에 무료로 만드세요! ✨
+                사원증 사진을 3초만에 무료로 만드세요! ✨
               </p>
 
               {/* 특징 */}
