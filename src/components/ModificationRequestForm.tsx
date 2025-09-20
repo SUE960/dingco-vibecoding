@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Edit3, ArrowRight, AlertCircle, ExternalLink } from 'lucide-react';
+import { X, Edit3, ArrowRight, AlertCircle } from 'lucide-react';
 import { submitModificationRequest } from '@/utils/presetStorage';
 import type { PhotoSpec } from './CompanyPresets';
 
@@ -96,7 +96,7 @@ export default function ModificationRequestForm({
       } else {
         setError(result.error || '제출에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('제출 처리 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);

@@ -11,7 +11,9 @@ import {
   Eye,
   EyeOff,
   ThumbsUp,
-  X
+  X,
+  Edit3,
+  Vote
 } from 'lucide-react';
 import { 
   getTopRequestedCompanies, 
@@ -35,7 +37,12 @@ export default function AdminDashboard() {
   const [requests, setRequests] = useState<CompanyPresetRequest[]>([]);
   const [pendingVerifications, setPendingVerifications] = useState<CompanyPresetSubmission[]>([]);
   const [pendingModifications, setPendingModifications] = useState<PresetModificationRequest[]>([]);
-  const [stats, setStats] = useState<any>({});
+  const [stats, setStats] = useState<{
+    totalCustomPresets?: number;
+    totalCollectedData?: number;
+    mostCommonSizes?: { size: string; count: number }[];
+    recentAdditions?: any[];
+  }>({});
 
   useEffect(() => {
     if (isVisible) {
@@ -216,14 +223,14 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* 가장 인기 있는 규격 */}
-                {stats.mostCommonSizes && stats.mostCommonSizes.length > 0 && (
+                  {stats.mostCommonSizes && stats.mostCommonSizes.length > 0 && (
                   <div>
                     <h3 className="font-semibold text-slate-900 mb-3">가장 많이 사용되는 규격</h3>
                     <div className="space-y-2">
-                      {stats.mostCommonSizes.map((size: any, index: number) => (
-                        <div key={size.size} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
-                          <span className="font-medium text-slate-900">{size.size}px</span>
-                          <span className="text-sm text-slate-600">{size.count}번 사용</span>
+                      {stats.mostCommonSizes.map((sizeData) => (
+                        <div key={sizeData.size} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                          <span className="font-medium text-slate-900">{sizeData.size}px</span>
+                          <span className="text-sm text-slate-600">{sizeData.count}번 사용</span>
                         </div>
                       ))}
                     </div>

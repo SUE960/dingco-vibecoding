@@ -57,7 +57,7 @@ export default function CompanyRequestForm({
       } else {
         setError(result.error || '요청 저장에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('요청 처리 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);

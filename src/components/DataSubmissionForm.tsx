@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { X, Upload, ExternalLink, CheckCircle, AlertCircle, Vote } from 'lucide-react';
+import { X, Upload, CheckCircle, AlertCircle, Vote } from 'lucide-react';
 import { submitCompanyPreset, voteForSubmission } from '@/utils/presetStorage';
-import type { CompanyPresetRequest, CompanyPresetSubmission } from '@/utils/presetStorage';
+import type { CompanyPresetRequest } from '@/utils/presetStorage';
 import { PhotoSpec } from './CompanyPresets';
 
 interface DataSubmissionFormProps {
@@ -64,7 +64,7 @@ export default function DataSubmissionForm({
       } else {
         setError(result.error || '제출에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('제출 처리 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);

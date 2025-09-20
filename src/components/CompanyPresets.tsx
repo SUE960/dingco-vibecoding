@@ -108,7 +108,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
     onPresetSelect(newPreset); // 추가 후 바로 선택
   };
 
-  const handleRequestSuccess = (request: CompanyPresetRequest) => {
+  const handleRequestSuccess = () => {
     setTopRequests(getTopRequestedCompanies(3));
   };
 
@@ -298,7 +298,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
             <Search className="w-8 h-8 text-slate-400" />
           </div>
           <h3 className="font-medium text-slate-900 mb-2">
-            '{searchTerm}' 검색 결과가 없습니다
+            &apos;{searchTerm}&apos; 검색 결과가 없습니다
           </h3>
           <p className="text-slate-600 text-sm mb-4">
             해당 회사의 규격이 아직 등록되지 않았습니다.
@@ -308,7 +308,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
             className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
           >
             <Plus className="w-4 h-4" />
-            '{searchTerm}' 규격 요청하기
+            &apos;{searchTerm}&apos; 규격 요청하기
           </button>
         </div>
       )}
