@@ -71,8 +71,8 @@ export default function Home() {
                 간편하고 전문적인 사원증 사진 편집
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
-                각 회사의 사원증 규격에 맞게 증명사진을 자동으로 조정해드립니다.<br />
-                전문적인 품질의 사원증 사진을 무료로 만들어보세요.
+                <span className="font-semibold text-slate-700">삼성, LG, 네이버 등 회사별 규격에 딱 맞는</span><br />
+                증명사진을 3초만에 무료로 만드세요! ✨
               </p>
 
               {/* 특징 */}
