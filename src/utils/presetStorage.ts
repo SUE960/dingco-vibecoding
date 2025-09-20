@@ -157,7 +157,7 @@ export const requestCompanyPreset = (request: {
   companyName: string;
   requesterEmail?: string;
   requesterName?: string;
-}) => {
+}): { success: true; isNew: boolean; request: CompanyPresetRequest } | { success: false; error: string } => {
   try {
     const newRequest: CompanyPresetRequest = {
       id: generateId(),
@@ -201,7 +201,7 @@ export const submitCompanyPreset = (submission: {
   submitterEmail?: string;
   submitterName?: string;
   evidence?: string;
-}) => {
+}): { success: true; submission: CompanyPresetSubmission } | { success: false; error: string } => {
   try {
     const newSubmission: CompanyPresetSubmission = {
       id: generateId(),
@@ -240,7 +240,7 @@ export const submitCompanyPreset = (submission: {
 };
 
 // 제출된 규격에 투표
-export const voteForSubmission = (submissionId: string) => {
+export const voteForSubmission = (submissionId: string): { success: boolean; error?: string } => {
   try {
     const requests = getCompanyRequests();
     let updated = false;
@@ -319,7 +319,7 @@ export const getPendingVerifications = () => {
   return getVerificationQueue().filter(submission => !submission.isVerified);
 };
 
-export const approveSubmission = (submissionId: string) => {
+export const approveSubmission = (submissionId: string): { success: true; submission: CompanyPresetSubmission } | { success: false; error: string } => {
   try {
     const requests = getCompanyRequests();
     let approvedSubmission: CompanyPresetSubmission | null = null;
@@ -362,7 +362,7 @@ export const submitModificationRequest = (request: {
   requesterName?: string;
   reason: string;
   evidence?: string;
-}) => {
+}): { success: true; request: PresetModificationRequest } | { success: false; error: string } => {
   try {
     const newRequest: PresetModificationRequest = {
       id: generateId(),
@@ -390,7 +390,7 @@ export const submitModificationRequest = (request: {
 };
 
 // 수정 의견에 투표
-export const voteForModification = (requestId: string) => {
+export const voteForModification = (requestId: string): { success: boolean; error?: string } => {
   try {
     const requests = getModificationRequests();
     const targetRequest = requests.find(req => req.id === requestId);
@@ -409,7 +409,7 @@ export const voteForModification = (requestId: string) => {
 };
 
 // 수정 의견 승인 (관리자)
-export const approveModificationRequest = (requestId: string, adminComments?: string) => {
+export const approveModificationRequest = (requestId: string, adminComments?: string): { success: true; request: PresetModificationRequest } | { success: false; error: string } => {
   try {
     const requests = getModificationRequests();
     const targetRequest = requests.find(req => req.id === requestId);
@@ -433,7 +433,7 @@ export const approveModificationRequest = (requestId: string, adminComments?: st
 };
 
 // 수정 의견 거부 (관리자)
-export const rejectModificationRequest = (requestId: string, adminComments?: string) => {
+export const rejectModificationRequest = (requestId: string, adminComments?: string): { success: true; request: PresetModificationRequest } | { success: false; error: string } => {
   try {
     const requests = getModificationRequests();
     const targetRequest = requests.find(req => req.id === requestId);
