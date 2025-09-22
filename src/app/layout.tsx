@@ -1,41 +1,40 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import Script from 'next/script'
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "사원증 사진 편집기 | ID Photo Editor",
-  description: "회사별 사원증 규격에 맞게 증명사진을 편집해보세요. 무료 온라인 도구로 간편하게 사원증 사진을 만들 수 있습니다.",
-};
+  title: '사원증 사진 편집기 | ID Photo Editor',
+  description: '회사별 사원증 규격에 맞게 증명사진을 편집할 수 있는 온라인 도구입니다. 삼성, LG, 네이버 등 회사별 규격에 딱 맞는 사원증 사진을 3초만에 무료로 만드세요!',
+  keywords: '사원증, 증명사진, 사진편집, 회사규격, 삼성전자, LG전자, 네이버, 카카오',
+  openGraph: {
+    title: '사원증 사진 편집기',
+    description: '삼성, LG, 네이버 등 회사별 규격에 딱 맞는 사원증 사진을 3초만에 무료로 만드세요!',
+    type: 'website',
+  },
+}
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="ko">
       <head>
-        <script
+        {/* Google AdSense */}
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9910536047131530"
           crossOrigin="anonymous"
-        ></script>
+          strategy="afterInteractive"
+        />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         {children}
       </body>
     </html>
-  );
+  )
 }
