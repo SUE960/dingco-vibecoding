@@ -1,6 +1,8 @@
 import RSS from 'rss';
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge'; // Vercel Edge 환경에서 실행되도록 설정
+
 export async function GET() {
   const feed = new RSS({
     title: '사원증 사진 편집기 | 최신 소식',
