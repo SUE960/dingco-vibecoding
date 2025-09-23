@@ -24,6 +24,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        {/* Google Site Verification Meta Tag */}
+        <meta name="google-site-verification" content="xAaFU_LaQnrYJZHpeM3bGKmGoTfm-JFRdkbL4tDm2AY" />
         {/* Google AdSense Meta Tag */}
         <meta name="google-adsense-account" content="ca-pub-9910536047131530" />
         {/* Google AdSense Script */}
