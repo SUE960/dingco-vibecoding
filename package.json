@@ -11,13 +11,15 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.57.4",
     "@types/fabric": "^5.3.10",
+    "@types/rss": "^0.0.32",
     "fabric": "^6.7.1",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-image-crop": "^11.0.10"
+    "react-image-crop": "^11.0.10",
+    "rss": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

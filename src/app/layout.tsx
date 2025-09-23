@@ -24,6 +24,8 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
+        <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml" />
         {/* Google Site Verification Meta Tag */}
         <meta name="google-site-verification" content="xAaFU_LaQnrYJZHpeM3bGKmGoTfm-JFRdkbL4tDm2AY" />
         {/* Google AdSense Meta Tag */}
