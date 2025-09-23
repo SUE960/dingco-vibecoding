@@ -41,6 +41,7 @@ export default function RootLayout({
       </body>
     </html>
   )
-} 
-<!-- Vercel redeploy trigger -->
-<!-- Final redeploy trigger at Tue Sep 23 22:43:54 KST 2025 -->
+}
+
+{/* Vercel redeploy trigger */}
+{/* Final redeploy trigger at Tue Sep 23 22:43:54 KST 2025 */}
