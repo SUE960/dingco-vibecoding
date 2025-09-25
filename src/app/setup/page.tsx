@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Database, Play, CheckCircle, AlertTriangle, Copy } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import Link from 'next/link';
 
 export default function SetupPage() {
   const [status, setStatus] = useState<{
@@ -375,12 +376,12 @@ SELECT '🎉 데이터베이스 설정이 완료되었습니다!' as message;`;
               <p className="text-green-700 mb-3">
                 데이터베이스가 성공적으로 설정되었습니다. 이제 사원증 편집기를 사용할 수 있습니다.
               </p>
-              <a
+              <Link
                 href="/"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
               >
                 사원증 편집기로 이동 →
-              </a>
+              </Link>
             </div>
           )}
         </div>

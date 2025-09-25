@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useState, useCallback } from 'react';
+import Image from 'next/image';
 import { Download, RotateCcw, ZoomIn, ZoomOut, Crop as CropIcon } from 'lucide-react';
 import ReactCrop, { type Crop, type PixelCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -14,6 +15,7 @@ interface ImageEditorProps {
 
 export default function ImageEditor({ imageFile, selectedPreset, onDownload }: ImageEditorProps) {
   const [imageSrc, setImageSrc] = useState<string>('');
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [crop, setCrop] = useState<Crop>({
     unit: '%',
     x: 10,
@@ -55,6 +57,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
 
   const onImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const { naturalWidth, naturalHeight } = e.currentTarget;
+    setImageSize({ width: naturalWidth, height: naturalHeight });
     
     if (selectedPreset) {
       const aspectRatio = selectedPreset.width / selectedPreset.height;
@@ -402,10 +405,12 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
                   minWidth={50}
                   minHeight={50}
                 >
-                  <img
+                  <Image
                     ref={imgRef}
                     alt="편집할 이미지"
                     src={imageSrc}
+                    width={imageSize.width}
+                    height={imageSize.height}
                     style={{
                       transform: `scale(${scale}) rotate(${rotate}deg)`,
                       maxWidth: '100%',

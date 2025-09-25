@@ -25,7 +25,7 @@ export default function SupabaseStatus() {
         message: result.message,
         loading: false
       });
-    } catch (error) {
+    } catch (_error) {
       setStatus({
         connected: false,
         message: '연결 확인 중 오류가 발생했습니다.',

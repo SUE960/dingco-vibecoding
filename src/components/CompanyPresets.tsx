@@ -172,7 +172,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
     setSelectedPresetForModification(preset);
     setShowModificationForm(true);
   };
-
+  /*
   const getModificationCount = async (presetName: string) => {
     if (typeof window === 'undefined') return 0;
     try {
@@ -182,7 +182,7 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
       return getModificationRequestsForPresetLocal(presetName).filter(req => req.status === 'pending').length;
     }
   };
-
+  */
   if (isLoading) {
     return (
       <div className="w-full max-w-4xl mx-auto">
