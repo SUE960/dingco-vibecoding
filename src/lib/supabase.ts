@@ -90,3 +90,33 @@ export interface CustomPreset {
   created_at: string
   updated_at: string
 }
+
+// Supabase 연결 상태 확인 함수
+export async function checkSupabaseConnection(): Promise<{
+  connected: boolean;
+  message: string;
+}> {
+  try {
+    // 간단한 쿼리를 통해 연결 상태 확인
+    const { data, error } = await supabase
+      .from('company_presets')
+      .select('count', { count: 'exact', head: true });
+
+    if (error) {
+      return {
+        connected: false,
+        message: `연결 오류: ${error.message}`
+      };
+    }
+
+    return {
+      connected: true,
+      message: `연결 성공 (프리셋 ${data?.length || 0}개)`
+    };
+  } catch (error) {
+    return {
+      connected: false,
+      message: `연결 실패: ${error instanceof Error ? error.message : '알 수 없는 오류'}`
+    };
+  }
+}

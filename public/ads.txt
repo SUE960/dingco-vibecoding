@@ -1,1 +1,5 @@
+# ads.txt file for makeidsajin.com
+# This file is used to authorize digital sellers for programmatic advertising
+# Generated on 2025-09-30
+
 google.com, pub-9910536047131530, DIRECT, f08c47fec0942fa0

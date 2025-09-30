@@ -28,6 +28,8 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml" />
         {/* Google Site Verification Meta Tag */}
         <meta name="google-site-verification" content="xAaFU_LaQnrYJZHpeM3bGKmGoTfm-JFRdkbL4tDm2AY" />
+        {/* Naver Site Verification Meta Tag */}
+        <meta name="naver-site-verification" content="b29436331b64382b64fdb9d6e1d9d9b919f8e52d" />
         {/* Google AdSense Meta Tag */}
         <meta name="google-adsense-account" content="ca-pub-9910536047131530" />
         {/* Google AdSense Script */}

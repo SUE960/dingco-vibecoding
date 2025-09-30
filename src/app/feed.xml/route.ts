@@ -1,7 +1,7 @@
 import RSS from 'rss'
 
 export async function GET() {
-  const baseUrl = 'https://makeidsajin.com/'
+  const baseUrl = 'https://makeidsajin.com'
   
   const feed = new RSS({
     title: '사원증 사진 편집기',
