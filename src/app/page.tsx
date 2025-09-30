@@ -8,6 +8,7 @@ import ImageEditor from '@/components/ImageEditor';
 import QuickCustomizer from '@/components/QuickCustomizer';
 import PresetStats from '@/components/PresetStats';
 import AdminDashboard from '@/components/AdminDashboard';
+import { ErrorBoundary, DefaultErrorFallback } from '@/components/ErrorBoundary';
 
 export default function Home() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -105,10 +106,14 @@ export default function Home() {
             <ImageUploader onImageUpload={handleImageUpload} isUploading={isUploading} />
 
             {/* 회사 프리셋 */}
-            <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+              <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
+            </ErrorBoundary>
             
             {/* 빠른 커스터마이징 */}
-            <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+              <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
+            </ErrorBoundary>
           </div>
         ) : (
           <div className="space-y-8">
@@ -125,18 +130,24 @@ export default function Home() {
 
             {/* 회사 프리셋 (간소화된 버전) */}
             <div className="bg-white border border-slate-200 rounded-xl p-6">
-              <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
+              <ErrorBoundary fallback={DefaultErrorFallback}>
+                <CompanyPresets onPresetSelect={handlePresetSelect} selectedPreset={selectedPreset} />
+              </ErrorBoundary>
             </div>
 
             {/* 빠른 커스터마이징 */}
-            <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+              <QuickCustomizer onCustomPreset={handlePresetSelect} currentPreset={selectedPreset} />
+            </ErrorBoundary>
 
             {/* 이미지 편집기 */}
-            <ImageEditor
-              imageFile={uploadedImage}
-              selectedPreset={selectedPreset}
-              onDownload={handleDownload}
-            />
+            <ErrorBoundary fallback={DefaultErrorFallback}>
+              <ImageEditor
+                imageFile={uploadedImage}
+                selectedPreset={selectedPreset}
+                onDownload={handleDownload}
+              />
+            </ErrorBoundary>
           </div>
         )}
       </main>
@@ -151,10 +162,14 @@ export default function Home() {
       </footer>
 
       {/* 통계 대시보드 */}
-      <PresetStats />
+      <ErrorBoundary fallback={DefaultErrorFallback}>
+        <PresetStats />
+      </ErrorBoundary>
       
       {/* 관리자 대시보드 */}
-      <AdminDashboard />
+      <ErrorBoundary fallback={DefaultErrorFallback}>
+        <AdminDashboard />
+      </ErrorBoundary>
     </div>
   );
 }

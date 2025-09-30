@@ -107,37 +107,52 @@ export default function CompanyPresets({ onPresetSelect, selectedPreset }: Compa
   // Supabase에서 데이터 로드
   useEffect(() => {
     const loadData = async () => {
-      setIsLoading(true);
-      
-      // 회사 규격 데이터 로드
-      const supabasePresets = await getCompanyPresets();
-      if (supabasePresets.length > 0) {
-        const convertedPresets: PhotoSpec[] = supabasePresets.map((preset: CompanyPreset) => ({
-          name: preset.name,
-          width: preset.width,
-          height: preset.height,
-          aspectRatio: preset.aspect_ratio,
-          bgColor: preset.bg_color,
-          description: preset.description || ''
-        }));
-        setCompanyPresets(convertedPresets);
-      }
+      try {
+        setIsLoading(true);
+        
+        // 회사 규격 데이터 로드
+        try {
+          const supabasePresets = await getCompanyPresets();
+          if (supabasePresets.length > 0) {
+            const convertedPresets: PhotoSpec[] = supabasePresets.map((preset: CompanyPreset) => ({
+              name: preset.name,
+              width: preset.width,
+              height: preset.height,
+              aspectRatio: preset.aspect_ratio,
+              bgColor: preset.bg_color,
+              description: preset.description || ''
+            }));
+            setCompanyPresets(convertedPresets);
+          }
+        } catch (error) {
+          console.warn('Supabase 프리셋 로드 실패, 기본 프리셋 사용:', error);
+          // 기본 프리셋은 이미 COMPANY_PRESETS에서 초기화됨
+        }
 
-      // 상위 요청 데이터 로드
-      const requests = await getTopRequestedCompanies(3);
-      const convertedRequests: CompanyPresetRequest[] = requests.map(req => ({
-        id: req.id.toString(),
-        companyName: req.company_name,
-        requesterEmail: req.requester_email,
-        requesterName: req.requester_name,
-        requestDate: req.request_date,
-        status: req.status === 'approved' ? 'verified' : req.status === 'rejected' ? 'pending' : 'pending' as 'pending' | 'collecting' | 'verified' | 'added',
-        votes: req.votes,
-        submissions: [] // 기본값
-      }));
-      setTopRequests(convertedRequests);
-      
-      setIsLoading(false);
+        // 상위 요청 데이터 로드
+        try {
+          const requests = await getTopRequestedCompanies(3);
+          const convertedRequests: CompanyPresetRequest[] = requests.map(req => ({
+            id: req.id.toString(),
+            companyName: req.company_name,
+            requesterEmail: req.requester_email,
+            requesterName: req.requester_name,
+            requestDate: req.request_date,
+            status: req.status === 'approved' ? 'verified' : req.status === 'rejected' ? 'pending' : 'pending' as 'pending' | 'collecting' | 'verified' | 'added',
+            votes: req.votes,
+            submissions: [] // 기본값
+          }));
+          setTopRequests(convertedRequests);
+        } catch (error) {
+          console.warn('상위 요청 데이터 로드 실패:', error);
+          // 빈 배열로 유지
+        }
+        
+      } catch (error) {
+        console.error('데이터 로드 중 오류 발생:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     loadData();
