@@ -86,3 +86,4 @@ export function DefaultErrorFallback({ error, resetError }: { error?: Error; res
     </div>
   );
 }
+
