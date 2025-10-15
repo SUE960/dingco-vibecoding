@@ -42,106 +42,46 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      {/* 헤더 */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-slate-200/50 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-lg">
-                <Camera className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                  사원증 사진 편집기
-                </h1>
-                <p className="text-sm text-slate-600 font-medium">회사별 규격에 맞는 완벽한 사원증 사진</p>
-              </div>
+      {/* 헤더 (미니멀) */}
+      <header className="sticky top-0 z-50 border-b" style={{ borderColor: 'var(--line)' }}>
+        <div className="max-w-6xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between text-sm tracking-widest">
+            <a href="#about" className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</a>
+            <div className="font-semibold text-2xl" style={{ letterSpacing: '0.6rem', color: 'var(--navy)' }}>
+              T E C H I E S
             </div>
-            <div className="hidden md:flex items-center space-x-6">
-              <a href="#features" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
-                기능
-              </a>
-              <a href="#howto" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
-                사용법
-              </a>
-              <a href="#companies" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">
-                지원회사
-              </a>
-            </div>
+            <a href="#submit" className="uppercase" style={{ color: 'var(--muted)' }}>SUBMIT</a>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-6xl mx-auto px-6 py-10">
         {!uploadedImage ? (
           <div className="space-y-16">
-            {/* 히어로 섹션 */}
-            <div className="text-center py-16">
-              <div className="flex justify-center mb-8">
-                <div className="p-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-300">
-                  <Sparkles className="w-16 h-16 text-white" />
-                </div>
-              </div>
-              <h2 className="text-5xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-slate-900 via-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  간편하고 전문적인
-                </span><br />
-                <span className="text-slate-800">사원증 사진 편집</span>
-              </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-8 leading-relaxed">
-                <span className="font-bold text-slate-800">삼성, LG, 네이버 등 회사별 규격에 딱 맞는</span><br />
-                사원증 사진을 <span className="font-bold text-blue-600">3초만에 무료로</span> 만드세요! ✨
-              </p>
-              
-              {/* CTA 버튼 */}
-              <div className="flex justify-center mb-16">
-                <button 
-                  onClick={() => {
-                    const uploadSection = document.getElementById('howto');
-                    uploadSection?.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                  지금 시작하기 →
-                </button>
-              </div>
+            {/* 상단 구분선 & 필터 바 */}
+            <hr style={{ borderColor: 'var(--line)' }} />
+            <div className="flex items-center justify-between text-xs py-5" style={{ color: 'var(--muted)' }}>
+              <span>FILTER BY</span>
+              <button className="px-3 py-2 border rounded" style={{ borderColor: 'var(--line)' }}>All</button>
             </div>
+            <hr style={{ borderColor: 'var(--line)' }} />
 
             {/* 광고: 충분한 안내 콘텐츠 아래에 배치 */}
             <div className="py-4">
               <AdSense adSlot="1234567890" />
             </div>
 
-            {/* 특징 섹션 */}
-            <div id="features" className="py-16">
-              <div className="text-center mb-12">
-                <h3 className="text-3xl font-bold text-slate-900 mb-4">왜 우리 서비스를 선택해야 할까요?</h3>
-                <p className="text-lg text-slate-600">전문적이고 간편한 사원증 사진 편집 경험을 제공합니다</p>
-              </div>
-              
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="group bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-8 text-center hover:shadow-xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Users className="w-8 h-8 text-blue-600" />
+            {/* 카드 그리드 (레퍼런스 갤러리 느낌) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+              {[1,2,3,4,5,6].map((i) => (
+                <div key={i}>
+                  <div className="aspect-[4/5] bg-[var(--navy)] rounded-sm"></div>
+                  <div className="mt-3 text-center" style={{ color: 'var(--navy)' }}>
+                    <div className="text-sm">샘플 인물 {i}</div>
+                    <div className="text-2xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>DESIGNER</div>
                   </div>
-                  <h3 className="font-bold text-slate-900 mb-3 text-lg">주요 회사 지원</h3>
-                  <p className="text-slate-600">삼성, LG, 네이버, 카카오 등 주요 회사 규격 지원</p>
                 </div>
-                <div className="group bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-8 text-center hover:shadow-xl hover:border-purple-200 transition-all duration-300 transform hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Camera className="w-8 h-8 text-purple-600" />
-                  </div>
-                  <h3 className="font-bold text-slate-900 mb-3 text-lg">자동 크롭 & 리사이즈</h3>
-                  <p className="text-slate-600">AI 기반 얼굴 인식으로 최적의 크롭 영역 제안</p>
-                </div>
-                <div className="group bg-white/70 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-8 text-center hover:shadow-xl hover:border-green-200 transition-all duration-300 transform hover:-translate-y-2">
-                  <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-2xl mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Download className="w-8 h-8 text-green-600" />
-                  </div>
-                  <h3 className="font-bold text-slate-900 mb-3 text-lg">고품질 다운로드</h3>
-                  <p className="text-slate-600">PNG 고화질로 바로 다운로드 가능</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* 이미지 업로더 섹션 */}

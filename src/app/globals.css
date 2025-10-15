@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 오프화이트 배경, 네이비 톤 텍스트 */
+  --background: #f9f7f2;
+  --foreground: #0f2237;
+  --navy: #0f2237;
+  --navy-70: #2a3b52;
+  --muted: #8b8f96;
+  --line: #e6e3dc;
 }
 
 @theme inline {
