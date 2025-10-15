@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Camera, Sparkles, Users, Download } from 'lucide-react';
+import AdSense from '@/components/AdSense';
 import ImageUploader from '@/components/ImageUploader';
 import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
 import ImageEditor from '@/components/ImageEditor';
@@ -104,6 +105,11 @@ export default function Home() {
                   지금 시작하기 →
                 </button>
               </div>
+            </div>
+
+            {/* 광고: 충분한 안내 콘텐츠 아래에 배치 */}
+            <div className="py-4">
+              <AdSense adSlot="1234567890" />
             </div>
 
             {/* 특징 섹션 */}
@@ -244,10 +250,10 @@ export default function Home() {
                 삼성, LG, 네이버 등 주요 기업의 규격을 지원합니다.
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">
+                <a href="/privacy" className="text-slate-300 hover:text-white transition-colors">
                   개인정보처리방침
                 </a>
-                <a href="#" className="text-slate-300 hover:text-white transition-colors">
+                <a href="/terms" className="text-slate-300 hover:text-white transition-colors">
                   이용약관
                 </a>
               </div>

@@ -1,7 +1,9 @@
+import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Script from 'next/script'
+import Analytics from '@/components/Analytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,18 +32,29 @@ export default function RootLayout({
         <meta name="google-site-verification" content="xAaFU_LaQnrYJZHpeM3bGKmGoTfm-JFRdkbL4tDm2AY" />
         {/* Naver Site Verification Meta Tag */}
         <meta name="naver-site-verification" content="b29436331b64382b64fdb9d6e1d9d9b919f8e52d" />
-        {/* Google AdSense Meta Tag */}
+        {/* Google AdSense Meta Tag (계정 식별만 유지; 스크립트는 조건부로 개별 컴포넌트에서 로드) */}
         <meta name="google-adsense-account" content="ca-pub-9910536047131530" />
-        {/* Google AdSense Script */}
+        {/* Google tag (gtag.js) - GA4 */}
         <Script
+          id="gtag-loader"
           async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9910536047131530"
-          crossOrigin="anonymous"
+          src="https://www.googletagmanager.com/gtag/js?id=G-HWWYS5T4DZ"
           strategy="afterInteractive"
         />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);} 
+            gtag('js', new Date());
+            gtag('config', 'G-HWWYS5T4DZ');
+          `}
+        </Script>
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
       </body>
     </html>
   )
