@@ -15,6 +15,7 @@ export default function Home() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [selectedPreset, setSelectedPreset] = useState<PhotoSpec>();
   const [isUploading, setIsUploading] = useState(false);
+  const [activeTab, setActiveTab] = useState<'home' | 'samples'>('home');
 
   const handleImageUpload = async (file: File) => {
     setIsUploading(true);
@@ -46,32 +47,24 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b" style={{ borderColor: 'var(--line)' }}>
         <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between text-sm tracking-widest">
-            <a href="#about" className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</a>
+            <button onClick={() => setActiveTab('home')} className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</button>
             <div className="font-semibold text-2xl" style={{ letterSpacing: '0.6rem', color: 'var(--navy)' }}>
               T E C H I E S
             </div>
-            <a href="#submit" className="uppercase" style={{ color: 'var(--muted)' }}>SUBMIT</a>
+            <button onClick={() => setActiveTab('samples')} className="uppercase" style={{ color: 'var(--muted)' }}>SAMPLES</button>
           </div>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-10">
-        {!uploadedImage ? (
-          <div className="space-y-16">
-            {/* 상단 구분선 & 필터 바 */}
+        {activeTab === 'samples' ? (
+          <div className="space-y-10">
             <hr style={{ borderColor: 'var(--line)' }} />
             <div className="flex items-center justify-between text-xs py-5" style={{ color: 'var(--muted)' }}>
               <span>FILTER BY</span>
               <button className="px-3 py-2 border rounded" style={{ borderColor: 'var(--line)' }}>All</button>
             </div>
             <hr style={{ borderColor: 'var(--line)' }} />
-
-            {/* 광고: 충분한 안내 콘텐츠 아래에 배치 */}
-            <div className="py-4">
-              <AdSense adSlot="1234567890" />
-            </div>
-
-            {/* 카드 그리드 (레퍼런스 갤러리 느낌) */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {[1,2,3,4,5,6].map((i) => (
                 <div key={i}>
@@ -83,7 +76,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-
+          </div>
+        ) : !uploadedImage ? (
+          <div className="space-y-16">
             {/* 이미지 업로더 섹션 */}
             <div id="howto" className="py-16">
               <div className="text-center mb-12">
