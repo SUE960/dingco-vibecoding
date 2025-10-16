@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Camera, Sparkles, Users, Download } from 'lucide-react';
+import { Camera, Sparkles, Users, Download, Shield, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
 import AdSense from '@/components/AdSense';
 import ImageUploader from '@/components/ImageUploader';
 import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
@@ -79,6 +79,31 @@ export default function Home() {
           </div>
         ) : !uploadedImage ? (
           <div className="space-y-16">
+            {/* 소개/가치 제안 */}
+            <section className="text-center py-10">
+              <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--navy)' }}>회사 규격에 딱 맞는 사원증 사진을 3분 안에</h2>
+              <p className="text-lg max-w-3xl mx-auto" style={{ color: 'var(--muted)' }}>
+                별도의 설치 없이 브라우저에서 즉시 편집하고, 회사별 규격 프리셋과 커스텀 설정으로 정확한 사이즈를 보장합니다.
+                개인정보는 로컬에서 처리되어 안전합니다.
+              </p>
+              <div className="grid sm:grid-cols-3 gap-6 mt-10">
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <Clock className="w-6 h-6 mx-auto mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>빠른 편집</div>
+                  <div className="text-sm" style={{ color: 'var(--muted)' }}>드래그 없이 자동 크롭·리사이즈</div>
+                </div>
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <CheckCircle2 className="w-6 h-6 mx-auto mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>정확한 규격</div>
+                  <div className="text-sm" style={{ color: 'var(--muted)' }}>회사별 프리셋과 세밀한 커스텀</div>
+                </div>
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <Shield className="w-6 h-6 mx-auto mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>개인정보 보호</div>
+                  <div className="text-sm" style={{ color: 'var(--muted)' }}>이미지 처리는 브라우저에서만</div>
+                </div>
+              </div>
+            </section>
             {/* 이미지 업로더 섹션 */}
             <div id="howto" className="py-16">
               <div className="text-center mb-12">
@@ -115,6 +140,46 @@ export default function Home() {
                 </ErrorBoundary>
               </div>
             </div>
+
+            {/* 사용 방법(3단계) */}
+            <section className="py-8">
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <Sparkles className="w-6 h-6 mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>1. 사진 업로드</div>
+                  <p className="text-sm" style={{ color: 'var(--muted)' }}>원본 사진을 업로드하면 얼굴 위치를 기준으로 자동 크롭을 제안합니다.</p>
+                </div>
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <Camera className="w-6 h-6 mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>2. 규격 선택·수정</div>
+                  <p className="text-sm" style={{ color: 'var(--muted)' }}>회사 프리셋을 선택하거나 비율·배경색을 직접 조정하세요.</p>
+                </div>
+                <div className="p-6 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <Download className="w-6 h-6 mb-3" />
+                  <div className="font-semibold" style={{ color: 'var(--navy)' }}>3. 고화질 다운로드</div>
+                  <p className="text-sm" style={{ color: 'var(--muted)' }}>PNG로 바로 저장하거나 프린트용으로 보관할 수 있습니다.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* FAQ */}
+            <section className="py-8">
+              <h3 className="text-2xl font-bold mb-6" style={{ color: 'var(--navy)' }}>자주 묻는 질문</h3>
+              <div className="space-y-4">
+                <details className="p-5 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <summary className="font-medium" style={{ color: 'var(--navy)' }}>업로드한 사진이 서버로 전송되나요?</summary>
+                  <p className="mt-3 text-sm" style={{ color: 'var(--muted)' }}>아니요. 모든 편집은 브라우저에서만 처리됩니다. 이미지가 서버에 저장되지 않습니다.</p>
+                </details>
+                <details className="p-5 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <summary className="font-medium" style={{ color: 'var(--navy)' }}>회사 프리셋이 없으면 어떻게 하나요?</summary>
+                  <p className="mt-3 text-sm" style={{ color: 'var(--muted)' }}>커스텀 설정으로 바로 생성할 수 있고, 추후 프리셋 요청 기능을 통해 추가 예정입니다.</p>
+                </details>
+                <details className="p-5 border rounded" style={{ borderColor: 'var(--line)' }}>
+                  <summary className="font-medium" style={{ color: 'var(--navy)' }}>출력 품질은 어느 정도인가요?</summary>
+                  <p className="mt-3 text-sm" style={{ color: 'var(--muted)' }}>고해상도 PNG로 제공되며, 대부분의 사내 시스템 제출 요건을 충족합니다.</p>
+                </details>
+              </div>
+            </section>
           </div>
         ) : (
           <div className="space-y-12">
