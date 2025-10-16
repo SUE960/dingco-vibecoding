@@ -65,7 +65,7 @@ export default function Home() {
         {!uploadedImage ? (
           <div className="space-y-16">
             {/* 소개/가치 제안 */}
-            <section className="text-center py-10">
+            <section className="text-center py-10 bg-gray-50 rounded-xl border" style={{ borderColor: 'var(--line)' }}>
               <h2 className="text-4xl font-bold mb-4" style={{ color: 'var(--navy)' }}>회사 규격에 딱 맞는 사원증 사진을 3분 안에</h2>
               <p className="text-lg max-w-3xl mx-auto" style={{ color: 'var(--muted)' }}>
                 별도의 설치 없이 브라우저에서 즉시 편집하고, 회사별 규격 프리셋과 커스텀 설정으로 정확한 사이즈를 보장합니다.
