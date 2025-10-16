@@ -32,19 +32,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 인트로 카피 */}
-      <section className="text-center max-w-3xl mx-auto mb-12">
-        <p className="text-base md:text-lg text-slate-700 leading-7">
-          그동안 회사별 규격의 연결성을 강화하기 위해 독립적이고 자율적으로 움직여 왔지만,
-          이제는 정확한 프리셋과 커스텀을 기반으로 한 One Team으로서 시너지를 극대화합니다.
+      {/* 기업 소개 */}
+      <section className="max-w-3xl mx-auto mb-12">
+        <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--navy)' }}>기업 소개</h2>
+        <h3 className="text-xl font-semibold mb-1" style={{ color: 'var(--navy)' }}>EaseWorks (이즈웍스)</h3>
+        <p className="text-slate-700 italic mb-3">“일을 덜 하자는 게 아니라, 덜 번거롭게 하자.”</p>
+        <p className="text-slate-700 leading-7 mb-3">
+          Workless는 직장인의 사소한 잡무와 관리 스트레스를 없애주는 스마트 서비스 브랜드입니다.
+        </p>
+        <ul className="list-disc pl-5 text-slate-700 space-y-1">
+          <li>단순함</li>
+          <li>자동화</li>
+          <li>회복</li>
+        </ul>
+      </section>
+
+      {/* Makeidsajin 서비스 소개 */}
+      <section className="max-w-3xl mx-auto mb-16">
+        <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--navy)' }}>Makeidsajin 서비스 소개</h2>
+        <p className="text-slate-700 italic mb-3">“직장인의 시간을 지키는 단 1분의 사진 서비스.”</p>
+        <p className="text-slate-700 leading-7 mb-3">
+          직장인을 위한 AI 기반 증명사진 자동화 서비스입니다.
+        </p>
+        <p className="text-slate-700 leading-7 mb-3">
+          각 기업, 기관, 포트폴리오 규격에 맞춰 배경, 비율, 조명, 복장, 인상까지 자동으로 보정해주는 맞춤형 ID 포토 생성 플랫폼입니다.
+        </p>
+        <p className="text-slate-700 leading-7">
+          면접, 인사, 사내 프로필 등록 등에서 직장인이 사진 하나 때문에 시간을 낭비하지 않도록 설계된 서비스입니다.
         </p>
       </section>
-      {/* 곡선 디바이더 */}
-      <div className="mb-12">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-10">
-          <path d="M0,0 C300,120 900,-120 1200,0 L1200,120 L0,120 Z" fill="#e8effa" />
-        </svg>
-      </div>
       <header className="text-center mb-12">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--navy)' }}>
           MAKEIDSAJIN 소개
