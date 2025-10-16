@@ -1,9 +1,29 @@
 'use client';
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AboutPage() {
   return (
     <main className="max-w-5xl mx-auto px-6 py-14">
+      {/* 레퍼런스 모자이크 그리드 */}
+      <section className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
+        <div className="aspect-[4/3] rounded-xl" style={{ backgroundColor: '#e74a3b' }} />
+        <div className="aspect-[4/3] rounded-xl flex items-center justify-center bg-white border" style={{ borderColor: 'var(--line)' }}>
+          <Image src="/next.svg" alt="logo" width={120} height={120} />
+        </div>
+        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#f1c40f' }}>
+          <p className="text-white text-xl font-semibold px-6 text-center">Masterminds<br/>exchange…</p>
+        </div>
+        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#4aa3ff' }}>
+          <p className="text-white text-xl font-semibold px-6 text-center">brain<br/>storming<br/>group</p>
+        </div>
+        <div className="aspect-[4/3] rounded-xl flex items-center justify-center bg-white border" style={{ borderColor: 'var(--line)' }}>
+          <Image src="/globe.svg" alt="globe" width={120} height={120} />
+        </div>
+        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#27ae60' }}>
+          <Image src="/window.svg" alt="window" width={120} height={120} className="opacity-90 invert" />
+        </div>
+      </section>
       <header className="text-center mb-12">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--navy)' }}>
           MAKEIDSAJIN 소개
