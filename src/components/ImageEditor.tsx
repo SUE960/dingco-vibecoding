@@ -10,7 +10,7 @@ import { PhotoSpec } from './CompanyPresets';
 interface ImageEditorProps {
   imageFile: File;
   selectedPreset?: PhotoSpec;
-  onDownload?: (blob: Blob) => void;
+  onDownload?: (blob: Blob, mime: string, ext: string) => void;
 }
 
 export default function ImageEditor({ imageFile, selectedPreset, onDownload }: ImageEditorProps) {
@@ -28,6 +28,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
   const [rotate, setRotate] = useState(0);
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [useBackground, setUseBackground] = useState(false);
+  const [format, setFormat] = useState<'png' | 'jpg' | 'webp'>('png');
   
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -253,11 +254,13 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       return;
     }
 
+    const mime = format === 'png' ? 'image/png' : format === 'jpg' ? 'image/jpeg' : 'image/webp';
+    const quality = format === 'png' ? 1 : 0.92;
     const blob = await new Promise<Blob | null>((resolve) => 
       downloadCanvas.toBlob(
         (b) => resolve(b),
-        'image/png',
-        1
+        mime,
+        quality
       )
     );
 
@@ -266,19 +269,20 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       return;
     }
 
+    const ext = format;
     if (onDownload) {
-      onDownload(blob);
+      onDownload(blob, mime, ext);
     } else {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `사원증사진_${selectedPreset?.name || '편집본'}.png`;
+      a.download = `사원증사진_${selectedPreset?.name || '편집본'}.${ext}`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [drawImageToCanvas, selectedPreset, onDownload]);
+  }, [drawImageToCanvas, selectedPreset, onDownload, format]);
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -361,6 +365,18 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
           </div>
 
           <div className="flex items-center gap-3 ml-auto">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-semibold text-slate-700">형식</label>
+              <select
+                className="px-2 py-1.5 text-sm bg-white border border-slate-300 rounded-md"
+                value={format}
+                onChange={(e) => setFormat(e.target.value as typeof format)}
+              >
+                <option value="png">PNG (무손실)</option>
+                <option value="jpg">JPG (고화질)</option>
+                <option value="webp">WEBP (경량)</option>
+              </select>
+            </div>
             <button
               onClick={() => {
                 setScale(1);

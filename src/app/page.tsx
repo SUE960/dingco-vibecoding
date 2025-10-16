@@ -35,11 +35,11 @@ export default function Home() {
     setSelectedPreset(preset);
   };
 
-  const handleDownload = (blob: Blob) => {
+  const handleDownload = (blob: Blob, _mime?: string, ext?: string) => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `사원증사진_${selectedPreset?.name || '편집본'}.png`;
+    a.download = `사원증사진_${selectedPreset?.name || '편집본'}.${ext || 'png'}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
