@@ -52,7 +52,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b" style={{ borderColor: 'var(--line)' }}>
         <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between text-sm tracking-widest">
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</button>
+            <a href="/about" className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</a>
             <div className="font-semibold text-2xl" style={{ letterSpacing: '0.35rem', color: 'var(--navy)' }}>
               MAKEIDSAJIN
             </div>
