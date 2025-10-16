@@ -53,10 +53,10 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between text-sm tracking-widest">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</button>
-            <div className="font-semibold text-2xl" style={{ letterSpacing: '0.6rem', color: 'var(--navy)' }}>
-              T E C H I E S
+            <div className="font-semibold text-2xl" style={{ letterSpacing: '0.35rem', color: 'var(--navy)' }}>
+              MAKEIDSAJIN
             </div>
-            <button onClick={scrollToSamples} className="uppercase" style={{ color: 'var(--muted)' }}>SAMPLES</button>
+            <span className="uppercase opacity-0 select-none">.</span>
           </div>
         </div>
       </header>
