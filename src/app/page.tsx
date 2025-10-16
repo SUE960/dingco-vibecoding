@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Camera, Sparkles, Users, Download, Shield, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
+import Image from 'next/image';
 import AdSense from '@/components/AdSense';
 import ImageUploader from '@/components/ImageUploader';
 import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
@@ -68,10 +69,18 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
               {[1,2,3,4,5,6].map((i) => (
                 <div key={i}>
-                  <div className="aspect-[4/5] bg-[var(--navy)] rounded-sm"></div>
+                  <div className="aspect-[4/5] bg-[var(--navy)] rounded-sm flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={i % 2 === 0 ? '/globe.svg' : '/window.svg'}
+                      alt="샘플 아이콘"
+                      width={120}
+                      height={120}
+                      className="opacity-90"
+                    />
+                  </div>
                   <div className="mt-3 text-center" style={{ color: 'var(--navy)' }}>
-                    <div className="text-sm">샘플 인물 {i}</div>
-                    <div className="text-2xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>DESIGNER</div>
+                    <div className="text-sm">샘플 카드 {i}</div>
+                    <div className="text-2xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>PRESET</div>
                   </div>
                 </div>
               ))}
