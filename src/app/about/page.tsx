@@ -22,7 +22,7 @@ export default function AboutPage() {
         {/* 히어로 이미지 + 오버레이 타이틀 */}
         <div className="rounded-2xl overflow-hidden border mb-2" style={{ borderColor: 'var(--line)' }}>
           <div className="relative h-56 md:h-80">
-            <Image src="/vercel.svg" alt="hero" fill className="object-cover opacity-20" />
+            <Image src="/hero-wave.svg" alt="hero" fill className="object-cover" />
             <div className="absolute inset-0 flex items-center justify-center">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-widest" style={{ color: 'var(--navy)' }}>
                 Con · nect · Wave
