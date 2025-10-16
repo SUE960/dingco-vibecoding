@@ -4,26 +4,47 @@ import Image from 'next/image'
 
 export default function AboutPage() {
   return (
-    <main className="max-w-5xl mx-auto px-6 py-14">
-      {/* 레퍼런스 모자이크 그리드 */}
-      <section className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12">
-        <div className="aspect-[4/3] rounded-xl" style={{ backgroundColor: '#e74a3b' }} />
-        <div className="aspect-[4/3] rounded-xl flex items-center justify-center bg-white border" style={{ borderColor: 'var(--line)' }}>
-          <Image src="/next.svg" alt="logo" width={120} height={120} />
+    <main className="max-w-6xl mx-auto px-6 py-14">
+      {/* Hero */}
+      <section className="text-center mb-10">
+        <p className="text-sm tracking-wide mb-2" style={{ color: 'var(--muted)' }}>가능성을 찾고, 연결을 만드는 일</p>
+        <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6" style={{ color: 'var(--navy)' }}>
+          MAKEIDSAJIN이 그려가고 있습니다
+        </h1>
+        {/* 파트너 배지 */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+          {['/next.svg','/vercel.svg','/globe.svg','/window.svg','/file.svg'].map((src,i)=> (
+            <div key={i} className="px-4 py-2 rounded-full border bg-white" style={{ borderColor: 'var(--line)' }}>
+              <Image src={src} alt="logo" width={70} height={20} />
+            </div>
+          ))}
         </div>
-        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#f1c40f' }}>
-          <p className="text-white text-xl font-semibold px-6 text-center">Masterminds<br/>exchange…</p>
-        </div>
-        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#4aa3ff' }}>
-          <p className="text-white text-xl font-semibold px-6 text-center">brain<br/>storming<br/>group</p>
-        </div>
-        <div className="aspect-[4/3] rounded-xl flex items-center justify-center bg-white border" style={{ borderColor: 'var(--line)' }}>
-          <Image src="/globe.svg" alt="globe" width={120} height={120} />
-        </div>
-        <div className="aspect-[4/3] rounded-xl flex items-center justify-center" style={{ backgroundColor: '#27ae60' }}>
-          <Image src="/window.svg" alt="window" width={120} height={120} className="opacity-90 invert" />
+        {/* 히어로 이미지 + 오버레이 타이틀 */}
+        <div className="rounded-2xl overflow-hidden border mb-2" style={{ borderColor: 'var(--line)' }}>
+          <div className="relative h-56 md:h-80">
+            <Image src="/vercel.svg" alt="hero" fill className="object-cover opacity-20" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-widest" style={{ color: 'var(--navy)' }}>
+                Con · nect · Wave
+              </h2>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* 인트로 카피 */}
+      <section className="text-center max-w-3xl mx-auto mb-12">
+        <p className="text-base md:text-lg text-slate-700 leading-7">
+          그동안 회사별 규격의 연결성을 강화하기 위해 독립적이고 자율적으로 움직여 왔지만,
+          이제는 정확한 프리셋과 커스텀을 기반으로 한 One Team으로서 시너지를 극대화합니다.
+        </p>
+      </section>
+      {/* 곡선 디바이더 */}
+      <div className="mb-12">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="w-full h-10">
+          <path d="M0,0 C300,120 900,-120 1200,0 L1200,120 L0,120 Z" fill="#e8effa" />
+        </svg>
+      </div>
       <header className="text-center mb-12">
         <h1 className="text-4xl font-extrabold tracking-tight mb-3" style={{ color: 'var(--navy)' }}>
           MAKEIDSAJIN 소개
