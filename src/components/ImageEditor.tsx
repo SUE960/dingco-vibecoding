@@ -29,6 +29,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
   const [aspect, setAspect] = useState<number | undefined>(undefined);
   const [useBackground, setUseBackground] = useState(false);
   const [format, setFormat] = useState<'png' | 'jpg' | 'webp'>('png');
+  const [quality, setQuality] = useState<number>(0.92); // JPG/WEBP 전용
   
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -255,12 +256,12 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
     }
 
     const mime = format === 'png' ? 'image/png' : format === 'jpg' ? 'image/jpeg' : 'image/webp';
-    const quality = format === 'png' ? 1 : 0.92;
+    const q = format === 'png' ? 1 : quality;
     const blob = await new Promise<Blob | null>((resolve) => 
       downloadCanvas.toBlob(
         (b) => resolve(b),
         mime,
-        quality
+        q
       )
     );
 
@@ -282,7 +283,7 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-  }, [drawImageToCanvas, selectedPreset, onDownload, format]);
+  }, [drawImageToCanvas, selectedPreset, onDownload, format, quality]);
 
   return (
     <div className="w-full max-w-4xl mx-auto">
@@ -377,6 +378,20 @@ export default function ImageEditor({ imageFile, selectedPreset, onDownload }: I
                 <option value="webp">WEBP (경량)</option>
               </select>
             </div>
+            {format !== 'png' && (
+              <div className="flex items-center gap-3">
+                <label className="text-sm font-semibold text-slate-700">화질</label>
+                <input
+                  type="range"
+                  min={0.5}
+                  max={1}
+                  step={0.01}
+                  value={quality}
+                  onChange={(e) => setQuality(parseFloat(e.target.value))}
+                />
+                <span className="text-sm text-slate-600 w-10 text-right">{Math.round(quality * 100)}%</span>
+              </div>
+            )}
             <button
               onClick={() => {
                 setScale(1);
