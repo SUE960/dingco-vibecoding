@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Camera, Sparkles, Users, Download, Shield, HelpCircle, CheckCircle2, Clock } from 'lucide-react';
+import { Camera, Sparkles, Download, Shield, CheckCircle2, Clock } from 'lucide-react';
 import Image from 'next/image';
 import AdSense from '@/components/AdSense';
 import ImageUploader from '@/components/ImageUploader';
@@ -16,7 +16,11 @@ export default function Home() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [selectedPreset, setSelectedPreset] = useState<PhotoSpec>();
   const [isUploading, setIsUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState<'home' | 'samples'>('home');
+  // 샘플 섹션으로 스크롤 이동
+  const scrollToSamples = () => {
+    const el = document.getElementById('samples');
+    el?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const handleImageUpload = async (file: File) => {
     setIsUploading(true);
@@ -48,45 +52,17 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b" style={{ borderColor: 'var(--line)' }}>
         <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between text-sm tracking-widest">
-            <button onClick={() => setActiveTab('home')} className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</button>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</button>
             <div className="font-semibold text-2xl" style={{ letterSpacing: '0.6rem', color: 'var(--navy)' }}>
               T E C H I E S
             </div>
-            <button onClick={() => setActiveTab('samples')} className="uppercase" style={{ color: 'var(--muted)' }}>SAMPLES</button>
+            <button onClick={scrollToSamples} className="uppercase" style={{ color: 'var(--muted)' }}>SAMPLES</button>
           </div>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-6 py-10">
-        {activeTab === 'samples' ? (
-          <div className="space-y-10">
-            <hr style={{ borderColor: 'var(--line)' }} />
-            <div className="flex items-center justify-between text-xs py-5" style={{ color: 'var(--muted)' }}>
-              <span>FILTER BY</span>
-              <button className="px-3 py-2 border rounded" style={{ borderColor: 'var(--line)' }}>All</button>
-            </div>
-            <hr style={{ borderColor: 'var(--line)' }} />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {[1,2,3,4,5,6].map((i) => (
-                <div key={i}>
-                  <div className="aspect-[4/5] bg-[var(--navy)] rounded-sm flex items-center justify-center overflow-hidden">
-                    <Image
-                      src={i % 2 === 0 ? '/globe.svg' : '/window.svg'}
-                      alt="샘플 아이콘"
-                      width={120}
-                      height={120}
-                      className="opacity-90"
-                    />
-                  </div>
-                  <div className="mt-3 text-center" style={{ color: 'var(--navy)' }}>
-                    <div className="text-sm">샘플 카드 {i}</div>
-                    <div className="text-2xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>PRESET</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : !uploadedImage ? (
+        {!uploadedImage ? (
           <div className="space-y-16">
             {/* 소개/가치 제안 */}
             <section className="text-center py-10">
@@ -187,6 +163,35 @@ export default function Home() {
                   <summary className="font-medium" style={{ color: 'var(--navy)' }}>출력 품질은 어느 정도인가요?</summary>
                   <p className="mt-3 text-sm" style={{ color: 'var(--muted)' }}>고해상도 PNG로 제공되며, 대부분의 사내 시스템 제출 요건을 충족합니다.</p>
                 </details>
+              </div>
+            </section>
+
+            {/* 하단 샘플 섹션 */}
+            <section id="samples" className="py-12">
+              <hr style={{ borderColor: 'var(--line)' }} />
+              <div className="flex items-center justify-between text-xs py-5" style={{ color: 'var(--muted)' }}>
+                <span>PRESET SAMPLES</span>
+                <button className="px-3 py-2 border rounded" style={{ borderColor: 'var(--line)' }}>All</button>
+              </div>
+              <hr style={{ borderColor: 'var(--line)' }} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-6">
+                {[1,2,3,4,5,6].map((i) => (
+                  <div key={i}>
+                    <div className="aspect-[4/5] bg-[var(--navy)] rounded-sm flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={i % 2 === 0 ? '/globe.svg' : '/window.svg'}
+                        alt="샘플 아이콘"
+                        width={120}
+                        height={120}
+                        className="opacity-90"
+                      />
+                    </div>
+                    <div className="mt-3 text-center" style={{ color: 'var(--navy)' }}>
+                      <div className="text-sm">샘플 카드 {i}</div>
+                      <div className="text-2xs tracking-widest uppercase" style={{ color: 'var(--muted)' }}>PRESET</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </section>
           </div>
