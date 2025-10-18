@@ -9,7 +9,7 @@ export default function AboutPage() {
         <div className="max-w-6xl mx-auto px-6 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Who&apos;s the Next
-            <span className="block italic font-light text-blue-300">Makeidsajin?</span>
+            <span className="block font-light text-blue-300">Makeidsajin?</span>
           </h1>
           <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
             직장인의 시간을 지키는 단 1분의 사진 서비스
@@ -28,7 +28,7 @@ export default function AboutPage() {
             </div>
             
             <div className="bg-slate-50 rounded-2xl p-8 md:p-12 mb-12">
-              <blockquote className="text-2xl md:text-3xl font-light text-slate-700 italic text-center mb-8">
+              <blockquote className="text-2xl md:text-3xl font-light text-slate-700 text-center mb-8">
                 &ldquo;일을 덜 하자는 게 아니라, 덜 번거롭게 하자.&rdquo;
               </blockquote>
               <p className="text-lg text-slate-600 text-center max-w-4xl mx-auto leading-relaxed mb-8">
