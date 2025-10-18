@@ -1,9 +1,9 @@
 <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Speed lines -->
   <g opacity="0.8">
-    <line x1="20" y1="25" x2="35" y2="25" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round"/>
-    <line x1="15" y1="30" x2="30" y2="30" stroke="url(#gradient)" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="10" y1="35" x2="25" y2="35" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="15" y1="25" x2="35" y2="25" stroke="url(#gradient)" stroke-width="3" stroke-linecap="round"/>
+    <line x1="10" y1="30" x2="30" y2="30" stroke="url(#gradient)" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="5" y1="35" x2="25" y2="35" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round"/>
   </g>
   
   <!-- Gear with arrow -->
@@ -11,23 +11,29 @@
     <!-- Gear outer circle -->
     <circle cx="30" cy="30" r="25" fill="url(#gradient)" stroke="none"/>
     
-    <!-- Gear teeth -->
+    <!-- Gear teeth (6 teeth as in original) -->
     <g fill="white" opacity="0.9">
+      <!-- Top -->
       <rect x="28" y="5" width="4" height="8" rx="2"/>
+      <!-- Bottom -->
       <rect x="28" y="47" width="4" height="8" rx="2"/>
+      <!-- Left -->
       <rect x="5" y="28" width="8" height="4" rx="2"/>
+      <!-- Right -->
       <rect x="47" y="28" width="8" height="4" rx="2"/>
+      <!-- Top-left diagonal -->
       <rect x="12" y="12" width="4" height="8" rx="2" transform="rotate(45 14 16)"/>
+      <!-- Bottom-right diagonal -->
       <rect x="44" y="44" width="4" height="8" rx="2" transform="rotate(45 46 48)"/>
-      <rect x="44" y="12" width="4" height="8" rx="2" transform="rotate(-45 46 16)"/>
-      <rect x="12" y="44" width="4" height="8" rx="2" transform="rotate(-45 14 48)"/>
     </g>
     
     <!-- Inner circle -->
     <circle cx="30" cy="30" r="15" fill="white"/>
     
-    <!-- Arrow -->
+    <!-- Arrow with lightning bolt effect -->
     <path d="M20 30 L35 30 L32 27 M35 30 L32 33" stroke="url(#gradient)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Lightning bolt in arrow -->
+    <path d="M25 30 L30 25 L28 30 L33 30" stroke="url(#gradient)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   </g>
   
   <!-- Gradient definition -->
