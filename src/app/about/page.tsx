@@ -3,103 +3,179 @@ import Link from 'next/link'
 
 export default function AboutPage() {
   return (
-    <main className="max-w-6xl mx-auto px-6 py-14">
+    <div className="min-h-screen bg-white">
+      {/* Hero Section - Dark Background */}
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+            Who&apos;s the Next
+            <span className="block italic font-light text-blue-300">Makeidsajin?</span>
+          </h1>
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            직장인의 시간을 지키는 단 1분의 사진 서비스
+          </p>
+        </div>
+      </section>
 
-      {/* 기업 소개 - 전체 영역 강조 */}
-      <section className="w-full mb-16">
-        <div className="rounded-3xl border-2 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 md:p-12 shadow-lg" style={{ borderColor: 'var(--navy)' }}>
-          <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col md:flex-row items-start gap-8">
-              <div className="w-20 h-20 rounded-2xl flex-shrink-0 flex items-center justify-center text-white text-2xl font-bold" style={{ background: 'linear-gradient(135deg,#3a5ea9,#86b0ff)' }}>
-                E
+      {/* Main Content - Clean White Background */}
+      <main className="bg-white">
+        {/* Company Introduction */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-slate-900 mb-4">기업 소개</h2>
+              <p className="text-lg text-slate-600">EaseWorks (이즈웍스)</p>
+            </div>
+            
+            <div className="bg-slate-50 rounded-2xl p-8 md:p-12 mb-12">
+              <blockquote className="text-2xl md:text-3xl font-light text-slate-700 italic text-center mb-8">
+                &ldquo;일을 덜 하자는 게 아니라, 덜 번거롭게 하자.&rdquo;
+              </blockquote>
+              <p className="text-lg text-slate-600 text-center max-w-4xl mx-auto leading-relaxed mb-8">
+                Workless는 직장인의 사소한 잡무와 관리 스트레스를 없애주는 스마트 서비스 브랜드입니다.
+              </p>
+              <div className="flex justify-center gap-4">
+                {['단순함', '자동화', '회복'].map((value) => (
+                  <span key={value} className="px-6 py-3 bg-white rounded-full text-slate-700 font-medium border border-slate-200">
+                    {value}
+                  </span>
+                ))}
               </div>
-              <div className="flex-1">
-                <div className="mb-4">
-                  <h2 className="text-3xl md:text-4xl font-extrabold mb-2" style={{ color: 'var(--navy)' }}>기업 소개</h2>
-                  <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: 'var(--navy)' }}>EaseWorks (이즈웍스)</h3>
-                </div>
-                <figure className="bg-white border-2 rounded-xl p-6 mb-6 shadow-sm" style={{ borderColor: 'var(--navy)' }}>
-                  <blockquote className="text-lg md:text-xl text-slate-700 italic font-medium">&ldquo;일을 덜 하자는 게 아니라, 덜 번거롭게 하자.&rdquo;</blockquote>
-                </figure>
-                <p className="text-lg text-slate-700 leading-8 mb-6">
-                  Workless는 직장인의 사소한 잡무와 관리 스트레스를 없애주는 스마트 서비스 브랜드입니다.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {['단순함','자동화','회복'].map((v)=> (
-                    <span key={v} className="px-4 py-2 text-base font-semibold rounded-full border-2 bg-white" style={{ borderColor: 'var(--navy)', color:'var(--navy)' }}>{v}</span>
-                  ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Service Introduction */}
+        <section className="py-16 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-slate-900 mb-4">Makeidsajin 서비스</h2>
+              <p className="text-lg text-slate-600">AI 기반 증명사진 자동화 서비스</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-200">
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">서비스 특징</h3>
+                <ul className="space-y-3 text-slate-600">
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    각 기업, 기관, 포트폴리오 규격에 맞춘 맞춤형 생성
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    배경·비율·조명·복장·인상까지 자동 보정
+                  </li>
+                  <li className="flex items-start">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                    면접, 인사, 사내 프로필 등록에 최적화
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-white rounded-xl p-8 shadow-sm border border-slate-200">
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">핵심 가치</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                      <span className="text-blue-600 font-bold">정</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-900">정확한 규격</h4>
+                      <p className="text-sm text-slate-600">회사 프리셋과 커스텀 규격 제공</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                      <span className="text-green-600 font-bold">빠</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-900">빠른 제작</h4>
+                      <p className="text-sm text-slate-600">3분 내 완성 가능</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                      <span className="text-purple-600 font-bold">안</span>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-slate-900">개인정보 보호</h4>
+                      <p className="text-sm text-slate-600">로컬 처리로 안전 보장</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Makeidsajin 서비스 소개 */}
-      <section className="max-w-4xl mx-auto mb-16">
-        <div className="rounded-2xl border bg-white p-6 md:p-8 shadow-sm" style={{ borderColor: 'var(--line)' }}>
-          <div className="flex items-start gap-4">
-            <div className="hidden md:block w-14 h-14 rounded-xl flex-shrink-0" style={{ background: 'linear-gradient(135deg,#86b0ff,#3a5ea9)' }} />
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--navy)' }}>Makeidsajin 서비스 소개</h2>
-              <p className="text-slate-700 italic mb-4">&ldquo;직장인의 시간을 지키는 단 1분의 사진 서비스.&rdquo;</p>
-              <p className="text-slate-700 leading-7 mb-3">직장인을 위한 AI 기반 증명사진 자동화 서비스입니다.</p>
-              <p className="text-slate-700 leading-7 mb-3">각 기업, 기관, 포트폴리오 규격에 맞춰 <strong>배경·비율·조명·복장·인상</strong>까지 자동 보정하는 맞춤형 ID 포토 생성 플랫폼입니다.</p>
-              <p className="text-slate-700 leading-7">면접, 인사, 사내 프로필 등록 등에서 사진 하나 때문에 시간을 낭비하지 않도록 설계되었습니다.</p>
+        {/* How it Works */}
+        <section className="py-16">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-slate-900 mb-4">사용 방법</h2>
+              <p className="text-lg text-slate-600">간단한 3단계로 완성</p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">규격 선택</h3>
+                <p className="text-slate-600">회사 프리셋을 선택하거나 원하는 규격을 직접 입력합니다.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">사진 업로드</h3>
+                <p className="text-slate-600">업로드한 사진에서 얼굴 위치를 기준으로 자동 크롭 제안을 확인합니다.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                <h3 className="text-lg font-semibold text-slate-900 mb-2">다운로드</h3>
+                <p className="text-slate-600">PNG/JPG/WEBP 형식을 선택하고 화질을 조절해 즉시 다운로드합니다.</p>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 핵심 가치 */}
-      <section className="grid md:grid-cols-3 gap-6 mb-12">
-        <div className="p-6 rounded-xl border bg-white" style={{ borderColor: 'var(--line)' }}>
-          <div className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>정확한 규격</div>
-          <p className="text-sm text-slate-600">회사 프리셋과 커스텀 규격을 제공하여 사이즈·비율을 정확히 맞춥니다.</p>
-        </div>
-        <div className="p-6 rounded-xl border bg-white" style={{ borderColor: 'var(--line)' }}>
-          <div className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>빠른 제작</div>
-          <p className="text-sm text-slate-600">자동 크롭·리사이즈와 직관적 컨트롤로 3분 내 완성합니다.</p>
-        </div>
-        <div className="p-6 rounded-xl border bg-white" style={{ borderColor: 'var(--line)' }}>
-          <div className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>개인정보 보호</div>
-          <p className="text-sm text-slate-600">이미지는 서버로 업로드되지 않고 브라우저 메모리에서만 처리됩니다.</p>
-        </div>
-      </section>
+        {/* Roadmap */}
+        <section className="py-16 bg-slate-50">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-slate-900 mb-4">로드맵</h2>
+              <p className="text-lg text-slate-600">향후 계획</p>
+            </div>
 
-      {/* 사용 흐름 */}
-      <section className="mb-12 bg-gray-50 rounded-xl border p-8" style={{ borderColor: 'var(--line)' }}>
-        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--navy)' }}>어떻게 동작하나요?</h2>
-        <ol className="grid md:grid-cols-3 gap-6 list-decimal pl-5">
-          <li className="text-slate-700">
-            회사 프리셋을 선택하거나 원하는 규격을 직접 입력합니다.
-          </li>
-          <li className="text-slate-700">
-            업로드한 사진에서 얼굴 위치를 기준으로 자동 크롭 제안을 확인합니다.
-          </li>
-          <li className="text-slate-700">
-            PNG/JPG/WEBP 형식을 선택하고 화질을 조절해 즉시 다운로드합니다.
-          </li>
-        </ol>
-      </section>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 className="font-semibold text-slate-900 mb-2">규격 요청/투표 기능</h3>
+                <p className="text-sm text-slate-600">사용자 요청 기반 새로운 규격 추가</p>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 className="font-semibold text-slate-900 mb-2">프린트용 A4 템플릿</h3>
+                <p className="text-sm text-slate-600">PDF 자동 배치 기능</p>
+              </div>
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <h3 className="font-semibold text-slate-900 mb-2">제출 사양 자동 검증</h3>
+                <p className="text-sm text-slate-600">체크리스트 기능</p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-      {/* 로드맵 */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--navy)' }}>로드맵</h2>
-        <ul className="list-disc pl-6 text-slate-600 space-y-1">
-          <li>규격 요청/투표 기능</li>
-          <li>프린트용 A4 템플릿(PDF) 자동 배치</li>
-          <li>제출 사양 자동 검증 체크리스트</li>
-        </ul>
-      </section>
-
-      {/* CTA */}
-      <div className="text-center">
-        <Link href="/" className="inline-block px-6 py-3 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors">
-          지금 편집 시작하기
-        </Link>
-      </div>
-    </main>
+        {/* CTA */}
+        <section className="py-16">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">지금 시작하세요</h2>
+            <p className="text-lg text-slate-600 mb-8">직장인의 시간을 지키는 사진 서비스를 경험해보세요</p>
+            <Link 
+              href="/" 
+              className="inline-block px-8 py-4 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-semibold"
+            >
+              편집 시작하기 →
+            </Link>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
