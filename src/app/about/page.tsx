@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function AboutPage() {
   return (
@@ -50,6 +51,15 @@ export default function AboutPage() {
         <section className="py-16">
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-12">
+              <div className="flex justify-center mb-6">
+                <Image 
+                  src="/easeworks-logo.svg" 
+                  alt="EaseWorks Logo" 
+                  width={200} 
+                  height={80}
+                  className="h-16 w-auto"
+                />
+              </div>
               <h2 className="text-4xl font-bold text-slate-900 mb-4">기업 소개</h2>
               <p className="text-lg text-slate-600">EaseWorks (이즈웍스)</p>
             </div>
