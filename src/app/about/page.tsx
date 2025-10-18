@@ -5,24 +5,30 @@ export default function AboutPage() {
   return (
     <main className="max-w-6xl mx-auto px-6 py-14">
 
-      {/* 기업 소개 */}
-      <section className="max-w-4xl mx-auto mb-12">
-        <div className="rounded-2xl border bg-white p-6 md:p-8 shadow-sm" style={{ borderColor: 'var(--line)' }}>
-          <div className="flex items-start gap-4">
-            <div className="hidden md:block w-14 h-14 rounded-xl flex-shrink-0" style={{ background: 'linear-gradient(135deg,#3a5ea9,#86b0ff)' }} />
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold mb-1" style={{ color: 'var(--navy)' }}>기업 소개</h2>
-              <h3 className="text-lg md:text-xl font-semibold mb-3" style={{ color: 'var(--navy)' }}>EaseWorks (이즈웍스)</h3>
-              <figure className="bg-gray-50 border rounded-lg p-4 mb-4" style={{ borderColor: 'var(--line)' }}>
-                <blockquote className="text-slate-700 italic">&ldquo;일을 덜 하자는 게 아니라, 덜 번거롭게 하자.&rdquo;</blockquote>
-              </figure>
-              <p className="text-slate-700 leading-7 mb-4">
-                Workless는 직장인의 사소한 잡무와 관리 스트레스를 없애주는 스마트 서비스 브랜드입니다.
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {['단순함','자동화','회복'].map((v)=> (
-                  <span key={v} className="px-3 py-1 text-sm rounded-full border" style={{ borderColor: 'var(--line)', color:'var(--navy)' }}>{v}</span>
-                ))}
+      {/* 기업 소개 - 전체 영역 강조 */}
+      <section className="w-full mb-16">
+        <div className="rounded-3xl border-2 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 md:p-12 shadow-lg" style={{ borderColor: 'var(--navy)' }}>
+          <div className="max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row items-start gap-8">
+              <div className="w-20 h-20 rounded-2xl flex-shrink-0 flex items-center justify-center text-white text-2xl font-bold" style={{ background: 'linear-gradient(135deg,#3a5ea9,#86b0ff)' }}>
+                E
+              </div>
+              <div className="flex-1">
+                <div className="mb-4">
+                  <h2 className="text-3xl md:text-4xl font-extrabold mb-2" style={{ color: 'var(--navy)' }}>기업 소개</h2>
+                  <h3 className="text-xl md:text-2xl font-semibold mb-4" style={{ color: 'var(--navy)' }}>EaseWorks (이즈웍스)</h3>
+                </div>
+                <figure className="bg-white border-2 rounded-xl p-6 mb-6 shadow-sm" style={{ borderColor: 'var(--navy)' }}>
+                  <blockquote className="text-lg md:text-xl text-slate-700 italic font-medium">&ldquo;일을 덜 하자는 게 아니라, 덜 번거롭게 하자.&rdquo;</blockquote>
+                </figure>
+                <p className="text-lg text-slate-700 leading-8 mb-6">
+                  Workless는 직장인의 사소한 잡무와 관리 스트레스를 없애주는 스마트 서비스 브랜드입니다.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {['단순함','자동화','회복'].map((v)=> (
+                    <span key={v} className="px-4 py-2 text-base font-semibold rounded-full border-2 bg-white" style={{ borderColor: 'var(--navy)', color:'var(--navy)' }}>{v}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
