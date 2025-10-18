@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Camera, Sparkles, Download, Shield, CheckCircle2, Clock } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import AdSense from '@/components/AdSense';
 import ImageUploader from '@/components/ImageUploader';
 import CompanyPresets, { PhotoSpec } from '@/components/CompanyPresets';
@@ -48,18 +49,33 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
-      {/* 헤더 (미니멀) */}
-      <header className="sticky top-0 z-50 border-b" style={{ borderColor: 'var(--line)' }}>
-        <div className="max-w-6xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-between text-sm tracking-widest">
-            <a href="/about" className="uppercase" style={{ color: 'var(--muted)' }}>ABOUT</a>
-            <div className="font-semibold text-2xl" style={{ letterSpacing: '0.35rem', color: 'var(--navy)' }}>
+      {/* Navigation Bar */}
+      <nav className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link href="/" className="text-xl font-bold text-slate-900">
               MAKEIDSAJIN
+            </Link>
+            
+            {/* Navigation Links */}
+            <div className="flex items-center space-x-8">
+              <Link 
+                href="/about" 
+                className="text-slate-700 hover:text-slate-900 font-medium transition-colors hover:border-b-2 hover:border-slate-300 pb-1"
+              >
+                ABOUT
+              </Link>
+              <Link 
+                href="/" 
+                className="text-slate-700 hover:text-slate-900 font-medium transition-colors border-b-2 border-blue-500 pb-1"
+              >
+                서비스
+              </Link>
             </div>
-            <span className="uppercase opacity-0 select-none">.</span>
           </div>
         </div>
-      </header>
+      </nav>
 
       <main className="max-w-6xl mx-auto px-6 py-10">
         {!uploadedImage ? (
